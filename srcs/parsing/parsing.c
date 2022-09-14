@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/13 19:25:36 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 21:20:31 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,11 @@ void	count_line(t_data *data)
 
 	i = -1;
 	data->cmd.cmd_nbr = 0;
+	data->redir.input_n = 0;
+	data->redir.output_n = 0;
+	data->redir.append_n = 0;
+	data->redir.heredoc_n = 0;
 	data->built.builtin_n = 0;
-	data->redir.redir_n = 0;
 	while(data->par_line[++i])
 	{
 		if (builtin_detector (data, data->par_line[i]) > 1)
@@ -59,7 +62,16 @@ void	count_line(t_data *data)
 		else if (cmd_detector (data, data->par_line[i]) == 1)
 			data->cmd.cmd_nbr++;
 		else if (redir_detector (data, data->par_line[i]) > 0)
-			data->redir.redir_n++;
+		{
+			if (redir_detector (data, data->par_line[i]) == 2)
+				data->redir.input_n++;
+			if (redir_detector (data, data->par_line[i]) == 3)
+				data->redir.heredoc_n++;
+			if (redir_detector (data, data->par_line[i]) == 4)
+				data->redir.output_n++;
+			if (redir_detector (data, data->par_line[i]) == 5)
+				data->redir.append_n++;
+		}
 	}
 }
 
@@ -69,6 +81,7 @@ void	parse_alloc(t_data *data)
 	create_lists(data);
 	count_line(data);
 	alloc_cmds(data);
+	alloc_redirections(data);
 	if (data->built.builtin_n > 0)
 	{
 		data->built.builtin = (char ***)malloc((data->built.builtin_n + 1) * sizeof(char **));
@@ -94,5 +107,29 @@ void	alloc_cmds(t_data *data)
 		data->ids.pfd[data->cmd.cmd_nbr] = NULL; 
 		data->cmd.cmdx[data->cmd.cmd_nbr] = NULL;
 		data->paths.path_cmd[data->cmd.cmd_nbr] = NULL;
+	}
+}
+
+void	alloc_redirections(t_data *data)
+{
+	if (data->redir.input_n > 0)
+	{
+		data->redir.input = (char **)malloc((data->redir.input_n + 1) * sizeof(char *));
+		data->redir.input[data->redir.input_n] = NULL;
+	}
+	else if (data->redir.heredoc_n > 0)
+	{
+		data->redir.heredoc = (char **)malloc((data->redir.heredoc_n + 1) * sizeof(char *));
+		data->redir.heredoc[data->redir.heredoc_n] = NULL;
+	}
+	else if (data->redir.output_n > 0)
+	{
+		data->redir.output = (char **)malloc((data->redir.output_n + 1) * sizeof(char *));
+		data->redir.output[data->redir.output_n] = NULL;
+	}
+	else if (data->redir.append_n > 0)
+	{
+		data->redir.append = (char **)malloc((data->redir.append_n + 1) * sizeof(char *));
+		data->redir.append[data->redir.append_n] = NULL;
 	}
 }

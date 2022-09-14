@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/13 22:03:59 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 22:21:53 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	run_one_cmd(t_data *data, int in_fd, int out_fd)
 		printf ("%s: command not found.\n", data->paths.path_cmd[0]);
 		return ;
 	}
-	if(in_fd != STDIN_FILENO)
+	if(in_fd > 0)
 		dup2 (in_fd, STDIN_FILENO);
 	if (pipe (data->ids.pfd[0]) != 0)
 	{
@@ -32,7 +32,7 @@ void	run_one_cmd(t_data *data, int in_fd, int out_fd)
 	else
 	{
 		wait (NULL);
-		if (out_fd != STDIN_FILENO)
+		if (out_fd != STDOUT_FILENO)
 			dup2 (out_fd, STDOUT_FILENO);
 		free_cmds (data);
 		return ;

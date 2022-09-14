@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/13 22:02:01 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:24:07 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,16 @@ typedef	struct s_built
 // struct de redirecoes
 typedef struct s_redir
 {
-	int		r_counter;
-	int		redir_n;
+	int		input_n;
+	int		output_n;
+	int		append_n;
+	int		heredoc_n;
+	int		input_c;
+	int		output_c;
+	int		append_c;
+	int		heredoc_c;
 	char 	*redir_lib;
+	char 	**heredoc;
 	char 	**append;
 	char 	**output;
 	char	**input;
@@ -53,6 +60,10 @@ typedef struct	s_cmd
 
 typedef struct	s_ids
 {
+	int		*inp_list;
+	int		*outp_list;
+	int 	*appnd_list;
+	int 	*hered_list;
 	int		in_fd;	//associar o fd se infile. se nao = 0 (para ser o STDIN)
 	int		out_fd; //associar o fd se outfile. se nao = 1 (para ser o STDIN)
 	int		**pfd;		//fd dos pipes, em forma de double array, [index][0 ou 1]
@@ -99,6 +110,7 @@ char	*substring(char *s, int start, int len);
 //PARSING
 //allocation of needed information
 void	alloc_cmds(t_data *data);
+void	alloc_redirections(t_data *data);
 void	parse_alloc(t_data *data);
 
 //line handling and utils
@@ -137,9 +149,9 @@ void	parse_cmd(t_data *data, int index);
 int		acessing_cmd(t_data *data, int index);
 
 //running commands
-void	run_one_cmd(t_data *data, int in_fd, int out_fd);
 void	pipes(t_data *data);
 void	run_processes(t_data *data, int index);
+void	run_one_cmd(t_data *data, int in_fd, int out_fd);
 void	run_father(t_data *data, int index);
 
 // cmds - utils
@@ -166,6 +178,15 @@ int		get_next(t_data *data, int *smal);
 int		env_var_detector(t_data *data, char *str);
 char	*selection(t_data *data, int j);
 
+// REDIRECTIONS
+// parsing redirections
+void	parse_redirec (t_data *data, int i);
+void	extract_input(t_data *data, int i, int index, int flag);
+void	extract_output(t_data *data, int i, int index, int flag);
+
+//running the redirections
+void	exec_redirect(t_data *data);
+void	redirect(t_data *data);
 //SIGNALS
 void    sig_handler(int signum);
 void	sig_ignore(int	signum);

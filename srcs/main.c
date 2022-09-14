@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/13 16:57:14 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:39:45 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	brain(t_data *data)
 		{
 			parse_builtin (data, i, data->built.b_counter);
 			exec_builtin (data, i);
-			//data->built.b_counter++;
+			data->built.b_counter++;
 		}
 		else if (cmd_detector (data, data->par_line[i]) == 1 && data->paths.p_str != NULL)
 		{
@@ -46,7 +46,7 @@ void	braining_cmds(t_data *data)
 	if(data->cmd.cmd_nbr == 1)
 	{
 		parse_cmd (data, 0);
-		run_one_cmd (data, data->ids.in_fd, data->ids.out_fd);
+		run_one_cmd (data, data->ids.inp_list[0], data->ids.outp_list[0]);
 		return ;
 	}
 	else
@@ -77,6 +77,7 @@ int	main(int argc, char *argv[], char *envp[])
 		if(data.paths.p_str != NULL)
 		{
 			parse_alloc (&data);
+			redirect(&data);
 			brain (&data);
 			free_line_info (&data);
 		}

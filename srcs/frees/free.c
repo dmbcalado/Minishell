@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:14:03 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/13 22:02:50 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 23:48:41 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ void	free_line_info(t_data *data)
 		free (data->paths.paths[i]);
 	free (data->paths.paths);
 	free (data->paths.p_str);
+	free (data->ids.inp_list);
+	free (data->ids.outp_list);
 }
 
 void	free_builtins(t_data *data)

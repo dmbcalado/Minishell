@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 17:54:28 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/13 16:21:38 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/14 19:36:25 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	full_detector(t_data *data, char *str)
 		return (1);
 	else if (cmd_detector(data, str) == 1)
 		return (2);
-	else if (redir_detector(data, str) == 1)
+	else if (redir_detector(data, str) > 0)
 		return (3);
 	return (0);
 }
@@ -84,11 +84,21 @@ int	redir_detector(t_data *data, char *str)
 			if(str[i] == data->redir.redir_lib[j])
 			{
 				if(j == 0)
-					return (2);
-				if(str[i + 1] == data->redir.redir_lib[j])
-					i++;
-				else
-					return (1);	
+					return (1);
+				else if (j == 1)		// <
+				{
+					if(str[i + 1] == data->redir.redir_lib[j])
+						return (3);
+					else
+						return (2);
+				}
+				else if (j == 2)		// >
+				{
+					if(str[i + 1] == data->redir.redir_lib[j])
+						return (5);
+					else
+						return (4);	
+				}
 			}
 		}
 	}
