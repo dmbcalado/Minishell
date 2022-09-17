@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/14 23:24:07 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/17 00:06:22 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ typedef struct s_redir
 	int		append_c;
 	int		heredoc_c;
 	char 	*redir_lib;
-	char 	**heredoc;
-	char 	**append;
 	char 	**output;
 	char	**input;
 }				t_redir;
@@ -110,11 +108,10 @@ char	*substring(char *s, int start, int len);
 //PARSING
 //allocation of needed information
 void	alloc_cmds(t_data *data);
-void	alloc_redirections(t_data *data);
 void	parse_alloc(t_data *data);
 
 //line handling and utils
-char	*get_line(t_data *data);
+void	get_line(t_data *data);
 void	count_line(t_data *data);
 void	create_lists(t_data *data);
 void	joining(t_data *data, char *str, int i_p);
@@ -180,13 +177,17 @@ char	*selection(t_data *data, int j);
 
 // REDIRECTIONS
 // parsing redirections
+void	reset_counters(t_data *data);
+void	alloc_redirections(t_data *data);
 void	parse_redirec (t_data *data, int i);
-void	extract_input(t_data *data, int i, int index, int flag);
-void	extract_output(t_data *data, int i, int index, int flag);
+int		find_i_for_infile(t_data *data , int index);
+int		find_i_for_outfile(t_data *data , int index);
+void	extract_input(t_data *data, int i, int index);
+void	extract_output(t_data *data, int index, int i);
 
 //running the redirections
-void	exec_redirect(t_data *data);
 void	redirect(t_data *data);
+void	exec_redirect(t_data *data, int index, int save);
 //SIGNALS
 void    sig_handler(int signum);
 void	sig_ignore(int	signum);

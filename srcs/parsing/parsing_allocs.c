@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_allocs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/16 02:43:46 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/16 23:59:51 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,11 @@ void	parse_alloc(t_data *data)
 	//check for fullpaths.
 }
 
+// -----------------------------------------------------------------------------
+// Fully allocates data.ids.pfd[size] and allocates both char *** for  cmdx
+// and paths.path_cmd.
+// -----------------------------------------------------------------------------
+
 void	alloc_cmds(t_data *data)
 {
 	int	i;
@@ -110,75 +115,27 @@ void	alloc_cmds(t_data *data)
 	}
 }
 
+// -----------------------------------------------------------------------------
+// Fully allocates redir.input[size] and allocates both char ** for 
+// collecting the file name of the input (or EOF), and the file name of the output.
+// -----------------------------------------------------------------------------
+
 void	alloc_redirections(t_data *data)
 {
 	int	i;
 	int	size;
-	int index;
+
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	data->redir.input = (char ***)malloc((size + 1) * sizeof(char **));
-	data->redir.output = (char ***)malloc((size + 1) * sizeof(char **));
-	data->redir.append = (char ***)malloc((size + 1) * sizeof(char **));
-	data->redir.heredoc = (char ***)malloc((size + 1) * sizeof(char **));
-	data->ids.inp_list = (int **)malloc((size + 1) * sizeof(int *));
-	data->ids.outp_list = (int **)malloc((size + 1) * sizeof(int *));
+	data->redir.input = (char **)malloc((size + 1) * sizeof(char **));
+	data->redir.output = (char **)malloc((size + 1) * sizeof(char **));
+	data->ids.inp_list = (int *)malloc((size + 1) * sizeof(int *));
+	data->ids.outp_list = (int *)malloc((size + 1) * sizeof(int *));
 	data->redir.input[size] = NULL;
-	data->ids.inp_list[size] = NULL;
-	index = -1;
-	while(++index < size)
+	data->redir.output[size] = NULL;
+	i = -1;
+	while(++i < size)
 	{
-		count_redir(data, index);
-		data->redir.input[index] = (char **)malloc((data->redir.input_n + 1) * sizeof(char *));
-		data->ids.inp_list[index] = (int *)malloc(data->redir.input_n * sizeof(int));
-		data->redir.output[index] = (char **)malloc((data->redir.output_n + 1) * sizeof(char *));
-		data->ids.outp_list[index] = (int *)malloc(data->redir.output_n * sizeof(int));
-		data->redir.append[index] = (char **)malloc((data->redir.append_n + 1) * sizeof(char *));
-		data->redir.heredoc[index] = (char **)malloc((data->redir.heredoc_n + 1) * sizeof(char *));
-		data->redir.input[index][data->redir.input_n] = NULL;
-		data->redir.output[index][data->redir.output_n] = NULL;
-		data->redir.append[index][data->redir.append_n] = NULL;
-		data->redir.heredoc[index][data->redir.heredoc_n] = NULL;
-		i = -1;
-		while(++i < data->redir.input_n)
-			data->ids.inp_list[index][i] = STDIN_FILENO;
-		i = -1;
-		while(++i < data->redir.output_n)
-			data->ids.outp_list[index][i] = STDOUT_FILENO;
-	}
-}
-
-
-void	count_redir(t_data *data , int index)
-{
-	int	i;
-
-	i = 0;
-	while(i < index)
-	{
-		data->cmd.cmd_nbr = 0;
-		data->redir.input_n = 0;
-		data->redir.output_n = 0;
-		data->redir.append_n = 0;
-		data->redir.heredoc_n = 0;
-		data->built.builtin_n = 0;
-		while( redir_detector (data, data->par_line[++i]) != 1)
-		{
-			if (builtin_detector (data, data->par_line[i]) > 0)
-				data->built.builtin_n++;
-			else if (cmd_detector (data, data->par_line[i]) == 1)
-				data->cmd.cmd_nbr++;
-			else if (redir_detector (data, data->par_line[i]) > 1)
-			{
-				if (redir_detector (data, data->par_line[i]) == 2)
-					data->redir.input_n++;
-				if (redir_detector (data, data->par_line[i]) == 3)
-					data->redir.heredoc_n++;
-				if (redir_detector (data, data->par_line[i]) == 4)
-					data->redir.output_n++;
-				if (redir_detector (data, data->par_line[i]) == 5)
-					data->redir.append_n++;
-			}
-		}
-		i++;	
+			data->ids.inp_list[i] = STDIN_FILENO;
+			data->ids.outp_list[i] = STDOUT_FILENO;
 	}
 }

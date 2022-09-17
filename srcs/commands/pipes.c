@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:53:40 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/16 02:36:16 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/17 00:09:51 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	run_processes(t_data *data, int index)
 		if (index == 0)
 		{
 			close (data->ids.pfd[index][0]);
-			if (data->ids.inp_list[index][data->redir.input_c] != STDIN_FILENO)
+			if (data->ids.inp_list[index] != STDIN_FILENO)
 			{
-				dup2 (data->ids.inp_list[index][data->redir.input_c], STDIN_FILENO);
+				dup2 (data->ids.inp_list[index], STDIN_FILENO);
 				data->redir.input_c++;
 			}
-			if (data->ids.outp_list[index][data->redir.output_c] != STDOUT_FILENO)
+			if (data->ids.outp_list[index] != STDOUT_FILENO)
 			{
-				dup2 (data->ids.outp_list[index][data->redir.output_c], STDOUT_FILENO);
+				dup2 (data->ids.outp_list[index], STDOUT_FILENO);
 				data->redir.output_c++;
 			}
 			else
@@ -42,16 +42,16 @@ void	run_processes(t_data *data, int index)
 		else if (index == data->cmd.cmd_nbr - 1)
 		{
 			close (data->ids.pfd[index - 1][1]);
-			if (data->ids.inp_list[index][data->redir.input_c] == STDIN_FILENO)
+			if (data->ids.inp_list[index] == STDIN_FILENO)
 				dup2(data->ids.pfd[index - 1][0], STDIN_FILENO);
 			else
 			{
-				dup2(data->ids.inp_list[index][data->redir.input_c], STDIN_FILENO);
+				dup2(data->ids.inp_list[index], STDIN_FILENO);
 				data->redir.input_c++;
 			}
-			if (data->ids.outp_list[index][data->redir.output_c] != STDOUT_FILENO)
+			if (data->ids.outp_list[index] != STDOUT_FILENO)
 			{
-				dup2 (data->ids.outp_list[index][data->redir.output_c], STDOUT_FILENO);
+				dup2 (data->ids.outp_list[index], STDOUT_FILENO);
 				data->redir.output_c++;
 			}
 		}
@@ -59,18 +59,18 @@ void	run_processes(t_data *data, int index)
 		{
 			close (data->ids.pfd[index - 1][1]);
 			close (data->ids.pfd[index][0]);
-			if (data->ids.inp_list[index][data->redir.input_c] == STDIN_FILENO)
+			if (data->ids.inp_list[index] == STDIN_FILENO)
 				dup2(data->ids.pfd[index - 1][0], STDIN_FILENO);
 			else
 			{
-				dup2(data->ids.inp_list[index][data->redir.input_c], STDIN_FILENO);
+				dup2(data->ids.inp_list[index], STDIN_FILENO);
 				data->redir.input_c++;
 			}
-			if (data->ids.outp_list[index][data->redir.output_c] == STDOUT_FILENO)
+			if (data->ids.outp_list[index] == STDOUT_FILENO)
 				dup2(data->ids.pfd[index - 1][0], STDOUT_FILENO);
 			else
 			{
-				dup2(data->ids.outp_list[index][data->redir.output_c], STDOUT_FILENO);
+				dup2(data->ids.outp_list[index], STDOUT_FILENO);
 				data->redir.output_c++;
 			}
 		}

@@ -1,0 +1,11 @@
+explicacao redirecoes
+header.h
+infile2.txt
+infile.txt
+libft
+Makefile
+minishell
+output.txt
+README.md
+srcs
+Subject.pdf

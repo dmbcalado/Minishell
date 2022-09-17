@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/16 02:37:26 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/17 04:48:54 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	braining_cmds(t_data *data)
 	
 	c = 0;
 	cmds = data->cmd.cmd_nbr;
+	printf("cmd nbr %d\ninpl %d\noutpl %d\n",data->cmd.cmd_nbr, data->ids.inp_list[0], data->ids.outp_list[0]);
 	if(data->cmd.cmd_nbr == 1)
 	{
 		parse_cmd (data, 0);

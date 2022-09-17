@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 01:04:26 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/13 16:47:50 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/17 04:42:44 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	count_cmd_args(t_data *data, int i)
 	count = 0;
 	while(data->par_line[++i])
 	{
-		if (builtin_detector (data, data->par_line[i]) == 1)
+		if (builtin_detector (data, data->par_line[i]) > 0)
 			break ;
 		if (redir_detector (data, data->par_line[i]) > 0)
 			break ;
