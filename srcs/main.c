@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/17 04:48:54 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 17:51:44 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ int	main(int argc, char *argv[], char *envp[])
 		if(data.paths.p_str != NULL)
 		{
 			parse_alloc (&data);
-			redirect(&data);
+			if (redirect(&data) < 0)
+				continue ;
 			brain (&data);
 			free_line_info (&data);
 		}

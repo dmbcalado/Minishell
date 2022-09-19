@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/17 05:04:35 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:23:28 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,20 @@
 // task: sets all counters to zero,
 //------------------------------------------------------------------------------
 
-void	redirect(t_data *data)
+int	redirect(t_data *data)
 {
 	int	index;
 	int	size;
 	int i;
-	int	flag;
+	int	flag_i;
+	int	flag_o;
 	int	ret;
 	
-	index = -1;
-	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	flag = 0;
 	i = 0;
+	index = -1;
+	flag_i = 0;
+	flag_o = 0;
+	size = data->cmd.cmd_nbr + data->built.builtin_n;
 	while(++index < size)
 	{
 		while(data->par_line[i])
@@ -39,27 +41,34 @@ void	redirect(t_data *data)
 				break;
 			if (ret > 1)
 			{
-				if (ret < 4 && flag == 0)
+				if (ret < 4 && flag_i == 0)
 				{
-					//treat all infiles that exist but are just bridges
 					i = find_i_for_infile(data, index);
+					if(bridge_infiles(data, index, i) < 0)
+						return(-1) ;
 					extract_input(data, index, i + 1);
+					if(exec_redirect(data, index, i) < 0)
+						return(-1) ;
 					exec_redirect(data, index, i);
-					flag++;
+					flag_i++;
 				}
-				else if (flag == 0)
+				if ( ret > 3 && flag_o == 0)
 				{
-					//treat all outfiles that exist but are just bridges
 					i = find_i_for_outfile(data, index);
+					if(bridge_outfiles(data, index, i) < 0)
+						return(-1) ;
 					extract_output(data, index, i + 1);
-					exec_redirect(data, index, i);
-					flag++;
+					if(exec_redirect(data, index, i) < 0)
+						return(-1) ;
+					flag_o++;
 				}
 			}
 			i++;
 		}
-		flag = 0;
+		flag_i = 0;
+		flag_o = 0;
 	}
+	return (1);
 }
 
 //------------------------------------------------------------------------------
@@ -69,7 +78,7 @@ void	redirect(t_data *data)
 // corresponding flags.
 //------------------------------------------------------------------------------
 
-void	exec_redirect(t_data *data, int index, int i)
+int	exec_redirect(t_data *data, int index, int i)
 {
 	int save;
 
@@ -80,7 +89,7 @@ void	exec_redirect(t_data *data, int index, int i)
 		if(data->ids.inp_list[index] < 0)
 		{
 			printf("Error: the file %s does not exist.", data->redir.input[index]);
-			return ;
+			return (-1);
 		}	
 	}
 	if (save == 3)
@@ -89,7 +98,7 @@ void	exec_redirect(t_data *data, int index, int i)
 		if(data->ids.inp_list[index] < 0)
 		{
 			printf("Error: the file %s does not exist.", data->redir.input[index]);
-			return ;
+			return (-1);
 		}	
 	}
 	if (save == 4)	//output
@@ -98,7 +107,7 @@ void	exec_redirect(t_data *data, int index, int i)
 		if(data->ids.outp_list[index] < 1)
 		{
 			printf("Error: the file %s had issues on open().",data->redir.output[index]);
-			return ;
+			return (-1);
 		}
 		else
 			printf("sucessefully opened %s\n",data->redir.output[index]);
@@ -109,9 +118,10 @@ void	exec_redirect(t_data *data, int index, int i)
 		if(data->ids.outp_list[index] < 0)
 		{
 			printf("Error: the file %s had issues on open().",data->redir.output[index]);
-			return ;
+			return (-1);
 		}
 		else
 			printf("sucessefully opened %s\n\n",data->redir.output[index]);
 	}
+	return (0);
 }

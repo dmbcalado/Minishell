@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_allocs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/16 23:59:51 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:47:17 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,8 @@ void	alloc_redirections(t_data *data)
 	int	size;
 
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	data->redir.input = (char **)malloc((size + 1) * sizeof(char **));
-	data->redir.output = (char **)malloc((size + 1) * sizeof(char **));
+	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
+	data->redir.output = (char **)malloc((size + 1) * sizeof(char *));
 	data->ids.inp_list = (int *)malloc((size + 1) * sizeof(int *));
 	data->ids.outp_list = (int *)malloc((size + 1) * sizeof(int *));
 	data->redir.input[size] = NULL;
@@ -135,6 +135,8 @@ void	alloc_redirections(t_data *data)
 	i = -1;
 	while(++i < size)
 	{
+			data->redir.input[i] = (char *)malloc(sizeof(char));
+			data->redir.output[i] = (char *)malloc(sizeof(char));
 			data->ids.inp_list[i] = STDIN_FILENO;
 			data->ids.outp_list[i] = STDOUT_FILENO;
 	}

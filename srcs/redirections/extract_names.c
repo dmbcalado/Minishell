@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_names.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 21:02:23 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/17 05:02:46 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 15:45:02 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	extract_input(t_data *data, int index, int i)
 	j = 0;
 	while (data->par_line[i][j])
 		j++;
+	free(data->redir.input[index]);
 	data->redir.input[index] = (char *)malloc((j + 1) * sizeof(char));
 	data->redir.input[index][j] = 0;
 	j = -1;
@@ -34,6 +35,7 @@ void	extract_output(t_data *data, int index, int i)
 	j = 0;
 	while (data->par_line[i][j])
 			j++;
+	free(data->redir.output[index]);
 	data->redir.output[index] = (char *)malloc((j + 1) * sizeof(char));
 	data->redir.output[index][j] = 0;
 	j = -1;

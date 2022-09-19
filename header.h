@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/17 00:06:22 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 18:18:18 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,15 @@ void	alloc_redirections(t_data *data);
 void	parse_redirec (t_data *data, int i);
 int		find_i_for_infile(t_data *data , int index);
 int		find_i_for_outfile(t_data *data , int index);
-void	extract_input(t_data *data, int i, int index);
+void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
+int		bridge_infiles(t_data *data, int index, int last);
+int		bridge_outfiles(t_data *data, int index, int last);
 
 //running the redirections
-void	redirect(t_data *data);
-void	exec_redirect(t_data *data, int index, int save);
+int		redirect(t_data *data);
+int		exec_redirect(t_data *data, int index, int save);
+
 //SIGNALS
 void    sig_handler(int signum);
 void	sig_ignore(int	signum);

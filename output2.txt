@@ -1,12 +1,1 @@
-explicacao redirecoes
-header.h
-infile2.txt
-infile.txt
-libft
-Makefile
-minishell
-output2.txt
-output.txt
-README.md
-srcs
-Subject.pdf
+Ele sai a quem, feio ou bonito podes dar um palpite

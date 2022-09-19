@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:14:03 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/14 23:48:41 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/19 13:03:01 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,20 @@ void	free_line_info(t_data *data)
 		free (data->paths.paths[i]);
 	free (data->paths.paths);
 	free (data->paths.p_str);
+	if (data->redir.input_n > 0)
+	{
+		i = -1;
+		while (data->redir.input[++i])
+			free (data->redir.input[i]);
+		free (data->redir.input);
+	}
+	if (data->redir.output_n > 0)
+	{
+		i = -1;
+		while (data->redir.output[++i])
+			free (data->redir.output[i]);
+		free (data->redir.output);
+	}
 	free (data->ids.inp_list);
 	free (data->ids.outp_list);
 }
