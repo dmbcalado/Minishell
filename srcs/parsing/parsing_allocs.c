@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_allocs.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/19 15:47:17 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/09/20 23:35:26 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,16 @@ void	alloc_redirections(t_data *data)
 	int	size;
 
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
+	if (size == 0 && data->redir.heredoc_n > 0)
+	{
+		data->ids.inp_list = (int *)malloc(sizeof(int));
+		extract_hdockey(data, 1);
+		heredoc(data, 0);
+	}
 	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
 	data->redir.output = (char **)malloc((size + 1) * sizeof(char *));
-	data->ids.inp_list = (int *)malloc((size + 1) * sizeof(int *));
-	data->ids.outp_list = (int *)malloc((size + 1) * sizeof(int *));
+	data->ids.inp_list = (int *)malloc(size * sizeof(int));
+	data->ids.outp_list = (int *)malloc(size * sizeof(int));
 	data->redir.input[size] = NULL;
 	data->redir.output[size] = NULL;
 	i = -1;

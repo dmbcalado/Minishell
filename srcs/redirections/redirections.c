@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/19 18:23:28 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/09/20 23:41:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	redirect(t_data *data)
 		while(data->par_line[i])
 		{
 			ret = redir_detector (data, data->par_line[i]);
+			printf("ret %d\n", ret);
 			if (ret == 1)
 				break;
 			if (ret > 1)
@@ -44,13 +45,21 @@ int	redirect(t_data *data)
 				if (ret < 4 && flag_i == 0)
 				{
 					i = find_i_for_infile(data, index);
+					printf("ret %d\n", ret);
 					if(bridge_infiles(data, index, i) < 0)
-						return(-1) ;
-					extract_input(data, index, i + 1);
-					if(exec_redirect(data, index, i) < 0)
-						return(-1) ;
-					exec_redirect(data, index, i);
-					flag_i++;
+						return(-1);
+					if (ret == 2)
+					{
+						extract_input(data, index, i + 1);
+						if(exec_redirect(data, index, i) < 0)
+							return(-1);
+						flag_i++;	
+					}
+					else
+					{
+						extract_hdockey(data, i + 1);
+						heredoc(data, index);
+					}
 				}
 				if ( ret > 3 && flag_o == 0)
 				{
@@ -83,7 +92,7 @@ int	exec_redirect(t_data *data, int index, int i)
 	int save;
 
 	save = redir_detector(data, data->par_line[i]);
-	if (save == 2)
+	if (save == 2)	//INPUT
 	{
 		data->ids.inp_list[index] = open (data->redir.input[index], O_RDONLY);
 		if(data->ids.inp_list[index] < 0)
@@ -92,7 +101,7 @@ int	exec_redirect(t_data *data, int index, int i)
 			return (-1);
 		}	
 	}
-	if (save == 3)
+	if (save == 3)  //HEREDOC
 	{
 		data->ids.inp_list[index] = open (data->redir.input[index], O_RDONLY); // VER FLAGS HEREDOC
 		if(data->ids.inp_list[index] < 0)
@@ -101,7 +110,7 @@ int	exec_redirect(t_data *data, int index, int i)
 			return (-1);
 		}	
 	}
-	if (save == 4)	//output
+	if (save == 4)	//OUTPUT
 	{
 		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_TRUNC | O_RDWR, 0644);
 		if(data->ids.outp_list[index] < 1)
@@ -112,9 +121,9 @@ int	exec_redirect(t_data *data, int index, int i)
 		else
 			printf("sucessefully opened %s\n",data->redir.output[index]);
 	}
-	if (save == 5)	//output
+	if (save == 5)	//APPEND
 	{
-		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_TRUNC | O_RDWR); // VER FLAGS APPEND
+		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_APPEND | O_RDWR, 0644); // VER FLAGS APPEND
 		if(data->ids.outp_list[index] < 0)
 		{
 			printf("Error: the file %s had issues on open().",data->redir.output[index]);

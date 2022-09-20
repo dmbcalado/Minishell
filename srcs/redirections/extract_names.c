@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   extract_names.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 21:02:23 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/19 15:45:02 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/09/20 23:40:16 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,21 @@ void	extract_input(t_data *data, int index, int i)
 	while (data->par_line[i][++j])
 		data->redir.input[index][j] = data->par_line[i][j];
 	printf("input: %s\n", data->redir.input[index]);
+}
+
+void	extract_hdockey(t_data *data, int i)
+{
+	int	j;
+
+	j = 0;
+	while (data->par_line[i][j])
+		j++;
+	data->redir.hdoc_key = (char *)malloc((j + 1) * sizeof(char));
+	data->redir.hdoc_key[j] = 0;
+	j = -1;
+	while (data->par_line[i][++j])
+		data->redir.hdoc_key[j] = data->par_line[i][j];
+	printf("key: %s\n", data->redir.hdoc_key);
 }
 
 void	extract_output(t_data *data, int index, int i)

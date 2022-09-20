@@ -1,0 +1,18 @@
+tmp = ft_strdup(data->par_line[i]);
+	tmp2 = ft_strjoin(tmp, "\n");
+	while (1)
+	{
+		write(1, "> ", 1);
+		buf = get_next_line();
+		if (buf)
+		{
+			if (ft_strlen(buf) == ft_strlen(tmp2))
+				if (!ft_strncmp(tmp2, buf, ft_strlen(data->par_line[i])))
+					break ;
+			write(data->ids.inp_list[index], buf, ft_strlen(buf));
+			free (buf);
+		}
+	}
+	free (tmp);
+	free (tmp2);
+	free (buf);

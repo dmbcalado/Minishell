@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/19 17:51:44 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/09/20 22:42:15 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void	braining_cmds(t_data *data)
 	
 	c = 0;
 	cmds = data->cmd.cmd_nbr;
-	printf("cmd nbr %d\ninpl %d\noutpl %d\n",data->cmd.cmd_nbr, data->ids.inp_list[0], data->ids.outp_list[0]);
 	if(data->cmd.cmd_nbr == 1)
 	{
 		parse_cmd (data, 0);

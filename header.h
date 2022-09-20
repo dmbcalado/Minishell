@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/19 18:18:18 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/09/20 23:35:14 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 // Libraries in the header below
 #include "./libft/libft.h"
-
+#include "./Get_Next_Line/get_next_line.h"
 // struct dos builtins
 
 typedef	struct s_built
@@ -37,7 +37,7 @@ typedef struct s_redir
 	int		input_c;
 	int		output_c;
 	int		append_c;
-	int		heredoc_c;
+	char	*hdoc_key;
 	char 	*redir_lib;
 	char 	**output;
 	char	**input;
@@ -97,6 +97,7 @@ typedef struct	s_data
 //UTILS
 // utils
 int		len_str(char *str);
+char	*str_cpy(char *dest, char *str);
 
 // new split
 int		count_rows(char *s, char c);
@@ -184,9 +185,11 @@ int		find_i_for_infile(t_data *data , int index);
 int		find_i_for_outfile(t_data *data , int index);
 void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
+void	extract_hdockey(t_data *data, int i);
 int		bridge_infiles(t_data *data, int index, int last);
 int		bridge_outfiles(t_data *data, int index, int last);
-
+void	heredoc(t_data *data, int index);
+int		compare_key(t_data *data, char *buffer, int len);
 //running the redirections
 int		redirect(t_data *data);
 int		exec_redirect(t_data *data, int index, int save);

@@ -6,13 +6,13 @@
 #    By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/08/16 20:21:37 by anfreire          #+#    #+#              #
-#    Updated: 2022/09/14 22:27:52 by dmendonc         ###   ########.fr        #
+#    Updated: 2022/09/20 22:38:03 by dmendonc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
-SRCS = $(wildcard ./srcs/parsing/*.c) $(wildcard ./srcs/redirections/*.c) $(wildcard ./srcs/frees/*.c) $(wildcard ./srcs/builtins/*.c) $(wildcard ./srcs/env/*.c) $(wildcard ./srcs/signals/*.c) $(wildcard ./srcs/commands/*.c) $(wildcard ./srcs/*.c) $(wildcard ./srcs/utils/*.c) $(wildcard ./libft/*.c)
+SRCS = $(wildcard ./srcs/parsing/*.c) $(wildcard ./Get_Next_Line/*.c) $(wildcard ./srcs/redirections/*.c) $(wildcard ./srcs/frees/*.c) $(wildcard ./srcs/builtins/*.c) $(wildcard ./srcs/env/*.c) $(wildcard ./srcs/signals/*.c) $(wildcard ./srcs/commands/*.c) $(wildcard ./srcs/*.c) $(wildcard ./srcs/utils/*.c) $(wildcard ./libft/*.c)
 
 OBJS = $(SRCS:.c=.o)
 
