@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 22:32:58 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/22 17:55:39 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:46:19 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 40
+#  define BUFFER_SIZE 4000
 # endif
-# include <unistd.h>
-# include <string.h>
-# include <stdlib.h>
-# include <stdio.h>
-# include <fcntl.h>
+# include "./libft/libft.h"
 
 //	UTILS :
 int		search_for_size(const char *buffer, int chr);

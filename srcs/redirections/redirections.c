@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/20 23:41:52 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/22 20:35:00 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ int	redirect(t_data *data)
 		while(data->par_line[i])
 		{
 			ret = redir_detector (data, data->par_line[i]);
-			printf("ret %d\n", ret);
 			if (ret == 1)
 				break;
 			if (ret > 1)
@@ -53,13 +52,13 @@ int	redirect(t_data *data)
 						extract_input(data, index, i + 1);
 						if(exec_redirect(data, index, i) < 0)
 							return(-1);
-						flag_i++;	
 					}
-					else
+					else 
 					{
 						extract_hdockey(data, i + 1);
 						heredoc(data, index);
 					}
+					flag_i++;	
 				}
 				if ( ret > 3 && flag_o == 0)
 				{
@@ -101,15 +100,6 @@ int	exec_redirect(t_data *data, int index, int i)
 			return (-1);
 		}	
 	}
-	if (save == 3)  //HEREDOC
-	{
-		data->ids.inp_list[index] = open (data->redir.input[index], O_RDONLY); // VER FLAGS HEREDOC
-		if(data->ids.inp_list[index] < 0)
-		{
-			printf("Error: the file %s does not exist.", data->redir.input[index]);
-			return (-1);
-		}	
-	}
 	if (save == 4)	//OUTPUT
 	{
 		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_TRUNC | O_RDWR, 0644);
@@ -123,7 +113,7 @@ int	exec_redirect(t_data *data, int index, int i)
 	}
 	if (save == 5)	//APPEND
 	{
-		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_APPEND | O_RDWR, 0644); // VER FLAGS APPEND
+		data->ids.outp_list[index] = open(data->redir.output[index], O_CREAT | O_APPEND | O_RDWR, 0644);
 		if(data->ids.outp_list[index] < 0)
 		{
 			printf("Error: the file %s had issues on open().",data->redir.output[index]);

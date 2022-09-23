@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/20 22:01:46 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/20 23:41:03 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/22 23:22:38 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	heredoc(t_data *data, int index)
 	int		len;
 	char	*buffer;
 
-	data->ids.inp_list[index] = open(".heredoc_tmp", O_CREAT | O_TRUNC | O_WRONLY, 0644);
+	data->ids.inp_list[index] = open(".heredoc_tmp", O_CREAT | O_TRUNC | O_RDWR, 0644);
+	if( data->ids.inp_list[index] < 2)
+	{
+		printf("something is going terribly wrong.\n");
+		return ;
+	}
 	len = len_str(data->redir.hdoc_key);
 	printf("len : %d\n", len);
 	while (1)
@@ -29,12 +34,18 @@ void	heredoc(t_data *data, int index)
 			if (len == len_str(buffer) - 1)
 			{
 				if(compare_key(data, buffer, len) > 0)
+				{
+					free (buffer);
 					break ;
+				}
 			}
 			write(data->ids.inp_list[index], buffer, len_str(buffer));
 			free (buffer);
 		}
 	}
+	
+	if (data->ids.inp_list[index] < 0)
+		printf("its here tho");
 }
 
 int	compare_key(t_data *data, char *buffer, int len)

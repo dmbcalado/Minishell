@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/20 23:35:14 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/09/22 18:08:56 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define HEADER_H
 
 // Libraries in the header below
+
 #include "./libft/libft.h"
-#include "./Get_Next_Line/get_next_line.h"
+#include "./gnl/get_next_line.h"
+
 // struct dos builtins
 
 typedef	struct s_built
@@ -28,6 +30,7 @@ typedef	struct s_built
 }				t_built;
 
 // struct de redirecoes
+
 typedef struct s_redir
 {
 	int		input_n;
@@ -44,6 +47,7 @@ typedef struct s_redir
 }				t_redir;
 
 // struct dos comandos
+
 typedef struct	s_cmd
 {
 	int		c_counter;
@@ -176,20 +180,26 @@ int		get_next(t_data *data, int *smal);
 int		env_var_detector(t_data *data, char *str);
 char	*selection(t_data *data, int j);
 
-// REDIRECTIONS
+// |-|-|-|-|     REDIRECTIONS     |-|-|-|-|
 // parsing redirections
+
 void	reset_counters(t_data *data);
 void	alloc_redirections(t_data *data);
 void	parse_redirec (t_data *data, int i);
+
+// input and output
 int		find_i_for_infile(t_data *data , int index);
 int		find_i_for_outfile(t_data *data , int index);
 void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
-void	extract_hdockey(t_data *data, int i);
 int		bridge_infiles(t_data *data, int index, int last);
 int		bridge_outfiles(t_data *data, int index, int last);
+
+// heredoc
 void	heredoc(t_data *data, int index);
+void	extract_hdockey(t_data *data, int i);
 int		compare_key(t_data *data, char *buffer, int len);
+
 //running the redirections
 int		redirect(t_data *data);
 int		exec_redirect(t_data *data, int index, int save);
