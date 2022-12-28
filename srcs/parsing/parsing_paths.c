@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/09 01:52:29 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:22:51 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,32 +19,39 @@ void	path_str(t_data *data)
 {
 	int	i;
 	int	j;
-	int	k;
-	int	len;
 
 	i = -1;
 	j = 0;
-	k = 4;
-	len = 0;
 	while (data->envp[++i])
 	{
 		if (compare (data->envp[i], "PATH") == -2)
 		{
 			j = 1;
-			break ;	
+			break ;
 		}
 	}
-	if(j != 1)
+	if (j != 1)
 	{
 		printf(": No such file or directory\n");
 		data->paths.p_str = NULL;
 		return ;
 	}
+	copy_path_str(data, i);
+}
+
+void	copy_path_str(t_data *data, int i)
+{
+	int	j;
+	int	len;
+	int	k;
+
 	j = 0;
+	k = 4;
+	len = 0;
 	while (data->envp[len])
 		len++;
-	if(i == len)
-		return ;	
+	if (i == len)
+		return ;
 	while (data->envp[i][j])
 		j++;
 	data->paths.p_str = malloc((j + 1) * sizeof(char));
@@ -85,7 +92,7 @@ void	get_paths(t_data *data)
 
 	i = -1;
 	path_str(data);
-	if(data->paths.p_str != NULL)
+	if (data->paths.p_str != NULL)
 	{
 		count = how_many_paths(data->paths.p_str, 58) + 1;
 		data->paths.spaths = spliting(data->paths.p_str, ':');

@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 17:54:28 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/17 04:38:36 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:15:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,18 @@ int	builtin_detector(t_data *data, char *str)
 	while (data->built.builtins[++j])
 	{
 		size = 0;
-		while(data->built.builtins[j][size])
+		while (data->built.builtins[j][size])
 			size++;
 		i = -1;
-		while(str[++i])
+		while (str[++i])
 		{
-			if(str[i] != data->built.builtins[j][i])
-				break;
-			else if(i == size - 1)
-				return(j);
+			if (str[i] != data->built.builtins[j][i])
+				break ;
+			else if (i == size - 1)
+				return (j);
 		}
 	}
-	return(-1);
+	return (-1);
 }
 
 // -----------------------------------------------------------------------------
@@ -56,10 +56,10 @@ int	cmd_detector(t_data *data, char *str)
 	int	i_p;
 
 	i_p = -1;
-	while(data->paths.paths[++i_p])
+	while (data->paths.paths[++i_p])
 	{
 		joining (data, str, i_p);
-		if (access (data->paths.test_cmd, X_OK) == 0)
+		if (access(data->paths.test_cmd, X_OK) == 0)
 		{
 			free(data->paths.test_cmd);
 			return (1);
@@ -67,40 +67,47 @@ int	cmd_detector(t_data *data, char *str)
 		else
 			free(data->paths.test_cmd);
 	}
-	return(0);
+	return (0);
 }
 
 int	redir_detector(t_data *data, char *str)
 {
-	int i;
-	int j;
-	
+	int	i;
+	int	j;
+
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 	{
 		j = -1;
-		while(data->redir.redir_lib[++j])
+		while (data->redir.redir_lib[++j])
 		{
-			if(str[i] == data->redir.redir_lib[j])
-			{
-				if(j == 0)
-					return (1);
-				else if (j == 1)		// <
-				{
-					if(str[i + 1] == data->redir.redir_lib[j])
-						return (3);
-					else
-						return (2);
-				}
-				else if (j == 2)		// >
-				{
-					if(str[i + 1] == data->redir.redir_lib[j])
-						return (5);
-					else
-						return (4);	
-				}
-			}
+			if (handle_redir_cases(data, str, i, j) > 0)
+				return (handle_redir_cases(data, str, i, j));
 		}
 	}
-	return(0);
+	return (0);
+}
+
+int	handle_redir_cases(t_data *data, char *str, int i, int j)
+{
+	if (str[i] == data->redir.redir_lib[j])
+	{
+		if (j == 0)
+			return (1);
+		else if (j == 1)
+		{
+			if (str[i + 1] == data->redir.redir_lib[j])
+				return (3);
+			else
+				return (2);
+		}
+		else if (j == 2)
+		{
+			if (str[i + 1] == data->redir.redir_lib[j])
+				return (5);
+			else
+				return (4);
+		}
+	}
+	return (0);
 }

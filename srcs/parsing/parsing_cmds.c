@@ -6,14 +6,14 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 01:04:26 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/17 04:42:44 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:33:07 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
 // -----------------------------------------------------------------------------
-// Function allocates all data gpaths.iven for the commands, and stores cmdx[][][]
+// Function allocates all data for the commands, and stores in cmdx[][][].
 // matrix that has the format exemplified below:
 // cmdx[cmd n-1]+...  [0] = "ls"	;	[1] = "-a"
 // cmdx[cmd n]  +... [0] = "grep"	;	[1] = "hello"
@@ -22,9 +22,9 @@
 int	count_cmd_args(t_data *data, int i)
 {
 	int	count;
-	
+
 	count = 0;
-	while(data->par_line[++i])
+	while (data->par_line[++i])
 	{
 		if (builtin_detector (data, data->par_line[i]) > 0)
 			break ;
@@ -44,14 +44,14 @@ int	get_cmd_i(t_data *data, int index)
 
 	i = -1;
 	count = 0;
-	while(data->par_line[++i])
+	while (data->par_line[++i])
 	{
-		if (cmd_detector (data, data->par_line[i]) == 1)
+		if (cmd_detector(data, data->par_line[i]) == 1)
 			count++;
 		if (count == index + 1)
 			break ;
 	}
-	return(i);
+	return (i);
 }
 
 void	parse_cmd(t_data *data, int index)
@@ -60,7 +60,7 @@ void	parse_cmd(t_data *data, int index)
 	int	j;
 	int	k;
 	int	count;
-	
+
 	i = get_cmd_i(data, index);
 	count = count_cmd_args(data, i);
 	data->cmd.cmdx[index] = (char **)malloc((count + 2) * sizeof(char *));
@@ -91,7 +91,7 @@ int	acessing_cmd(t_data *data, int index)
 
 	i = -1;
 	c = 0;
-	while(data->paths.paths[c])
+	while (data->paths.paths[c])
 		c++;
 	while (++i < c)
 	{

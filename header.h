@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/22 18:08:56 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 22:47:04 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,10 @@ typedef struct	s_ids
 {
 	int		*inp_list;
 	int		*outp_list;
-	int 	*appnd_list;
-	int 	*hered_list;
+	int		*appnd_list;
+	int		*hered_list;
+	int		flag_i;
+	int		flag_o;
 	int		in_fd;	//associar o fd se infile. se nao = 0 (para ser o STDIN)
 	int		out_fd; //associar o fd se outfile. se nao = 1 (para ser o STDIN)
 	int		**pfd;		//fd dos pipes, em forma de double array, [index][0 ou 1]
@@ -88,6 +90,7 @@ typedef	struct s_paths
 
 typedef struct	s_data
 {
+	int		size;
 	char	**par_line;
 	char	*line;
 	char	**envp;
@@ -101,7 +104,9 @@ typedef struct	s_data
 //UTILS
 // utils
 int		len_str(char *str);
+void	set_counters(t_data *data);
 char	*str_cpy(char *dest, char *str);
+
 
 // new split
 int		count_rows(char *s, char c);
@@ -126,6 +131,7 @@ int		full_detector(t_data *data, char *str);
 int		redir_detector(t_data *data, char *str);
 int		builtin_detector(t_data *data, char *str);
 int		cmd_detector(t_data *data, char *str);
+int		handle_redir_cases(t_data *data, char *str, int i, int j);
 
 
 //ENVIRONMENT
@@ -144,6 +150,7 @@ int		compare(const char *s1, const char *s2);
 int		p_size(t_data *data, char *str, int i_p);
 int		path_size(t_data *data, int index, int i_p);
 void	path_join(t_data *data, int index, int i_p);
+void 	copy_path_str(t_data *data, int i);
 
 //COMMANDS
 //parsing and testing if its executable
@@ -162,9 +169,9 @@ void	count_cmds(t_data *data);
 //BUILTINS
 // parsing builtins
 void	get_str(t_data *data, char *str, int index);
-void    builting(t_data *data, int i, int index);
+void	builting(t_data *data, int i, int index);
 void	built_builting(t_data *data, int i, int index);
-void    parse_builtin(t_data *data, int i, int index);
+void	parse_builtin(t_data *data, int i, int index);
 
 //env, export and unset builtins
 void	env(t_data *data);
@@ -172,7 +179,7 @@ void	unset(t_data *data, char *str);
 void	export(t_data *data, int index);
 void	export_env(t_data *data);
 void	export_var(t_data *data, char *str);
-void    exec_builtin(t_data *data, int  i);
+void	exec_builtin(t_data *data, int  i);
 
 //utils
 int		find_in_list(int *smal, int i);
@@ -202,7 +209,11 @@ int		compare_key(t_data *data, char *buffer, int len);
 
 //running the redirections
 int		redirect(t_data *data);
+int		redirect_input(t_data *data, int i, int index);
+int		redirect_output(t_data *data, int i, int index);
 int		exec_redirect(t_data *data, int index, int save);
+int		apply_redirect(t_data *data, int i, int index, int ret);
+
 
 //SIGNALS
 void    sig_handler(int signum);

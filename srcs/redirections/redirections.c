@@ -6,78 +6,11 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/28 18:19:44 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 19:36:41 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-//------------------------------------------------------------------------------
-// args: i as par_line[i], index has in wich cmd index, flag has flag = 1 : </>
-//																flag = 2 : <</>>
-// task: sets all counters to zero,
-//------------------------------------------------------------------------------
-
-int	redirect(t_data *data)
-{
-	int	index;
-	int	size;
-	int i;
-	int	flag_i;
-	int	flag_o;
-	int	ret;
-	
-	i = -1;
-	index = -1;
-	flag_i = 0;
-	flag_o = 0;
-	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	while(++index < size)
-	{
-		while(data->par_line[++i])
-		{
-			ret = redir_detector(data, data->par_line[i]);
-			if (ret == 1)
-				break;
-			if (ret > 1)
-			{
-				if (ret < 4 && flag_i == 0)
-				{
-					i = find_i_for_infile(data, index);
-					printf("i : %d\n", i);
-					if(bridge_infiles(data, index, i) < 0)
-						return(-1);
-					ret = redir_detector(data, data->par_line[i]);
-					if (ret == 2)
-					{
-						extract_input(data, index, i + 1);
-						if(exec_redirect(data, index, i) < 0)
-							return(-1);
-					}
-					else 
-					{
-						extract_hdockey(data, i + 1);
-						heredoc(data, index);
-					}
-					flag_i++;	
-				}
-				if ( ret > 3 && flag_o == 0)
-				{
-					i = find_i_for_outfile(data, index);
-					if(bridge_outfiles(data, index, i) < 0)
-						return(-1) ;
-					extract_output(data, index, i + 1);
-					if(exec_redirect(data, index, i) < 0)
-						return(-1) ;
-					flag_o++;
-				}
-			}
-		}
-		flag_i = 0;
-		flag_o = 0;
-	}
-	return (1);
-}
 
 //------------------------------------------------------------------------------
 // args: i as par_line[i], index has in wich cmd index, flag has flag = 1 : </>
