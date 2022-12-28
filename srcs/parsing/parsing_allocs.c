@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 07:30:34 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/20 23:35:26 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 17:44:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	count_line(t_data *data)
 	data->redir.append_n = 0;
 	data->redir.heredoc_n = 0;
 	data->built.builtin_n = 0;
-	while(data->par_line[i] && redir_detector (data, data->par_line[i]) != 1)
+	while(data->par_line[i])
 	{
 		if (builtin_detector (data, data->par_line[i]) > 0)
 			data->built.builtin_n++;

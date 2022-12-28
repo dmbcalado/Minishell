@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/09/23 01:49:17 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 18:00:12 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	braining_cmds(t_data *data)
 	if(data->cmd.cmd_nbr == 1)
 	{
 		parse_cmd(data, 0);
-		//printf("entrou com %d e %d\n", data->ids.inp_list[0], data->ids.outp_list[0]);
 		run_one_cmd(data, data->ids.inp_list[0], data->ids.outp_list[0]);
 		return ;
 	}

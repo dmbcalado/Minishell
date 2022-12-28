@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/22 20:35:00 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 18:19:44 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,16 @@ int	redirect(t_data *data)
 	int	flag_o;
 	int	ret;
 	
-	i = 0;
+	i = -1;
 	index = -1;
 	flag_i = 0;
 	flag_o = 0;
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
 	while(++index < size)
 	{
-		while(data->par_line[i])
+		while(data->par_line[++i])
 		{
-			ret = redir_detector (data, data->par_line[i]);
+			ret = redir_detector(data, data->par_line[i]);
 			if (ret == 1)
 				break;
 			if (ret > 1)
@@ -44,9 +44,10 @@ int	redirect(t_data *data)
 				if (ret < 4 && flag_i == 0)
 				{
 					i = find_i_for_infile(data, index);
-					printf("ret %d\n", ret);
+					printf("i : %d\n", i);
 					if(bridge_infiles(data, index, i) < 0)
 						return(-1);
+					ret = redir_detector(data, data->par_line[i]);
 					if (ret == 2)
 					{
 						extract_input(data, index, i + 1);
@@ -71,7 +72,6 @@ int	redirect(t_data *data)
 					flag_o++;
 				}
 			}
-			i++;
 		}
 		flag_i = 0;
 		flag_o = 0;

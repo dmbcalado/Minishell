@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:14:03 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/20 19:25:53 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/28 18:03:22 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,13 @@ void	free_line_info(t_data *data)
 	}
 	free (data->ids.inp_list);
 	free (data->ids.outp_list);
+	free (data->line);
 }
 
 void	free_builtins(t_data *data)
 {
 	int i;
-/* 	int	j;
+	int	j;
 	
 	if(data->built.builtin_n > 0)
 	{
@@ -88,7 +89,7 @@ void	free_builtins(t_data *data)
 			free (data->built.builtin[i]);
 		}
 		free (data->built.builtin);
-	} */
+	}
 	i = -1;
 	while (data->built.builtins[++i])
 		free (data->built.builtins[i]);
