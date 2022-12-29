@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/28 22:09:50 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:19:17 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@
 
 int	redirect(t_data *data)
 {
-	int i;
+	int	i;
 	int	ret;
 	int	index;
-	
+
 	i = -1;
 	index = -1;
 	while (++index < data->size)
@@ -32,7 +32,7 @@ int	redirect(t_data *data)
 		{
 			ret = redir_detector(data, data->par_line[i]);
 			if (ret == 1)
-				break;
+				break ;
 			if (ret > 1)
 			{
 				if (apply_redirect(data, i, index, ret) == -1)
@@ -54,7 +54,7 @@ int	apply_redirect(t_data *data, int i, int index, int ret)
 		if (data->ids.flag_i == -1)
 			return (-1);
 	}
-	if ( ret > 3 && data->ids.flag_o == 0)
+	if (ret > 3 && data->ids.flag_o == 0)
 	{
 		i = find_i_for_outfile(data, index);
 		data->ids.flag_o = redirect_output(data, i, index);
@@ -66,15 +66,15 @@ int	apply_redirect(t_data *data, int i, int index, int ret)
 
 int	redirect_input(t_data *data, int i, int index)
 {
-	int ret;
+	int	ret;
 
-	if(bridge_infiles(data, index, i) < 0)
+	if (bridge_infiles(data, index, i) < 0)
 		return (-1);
 	ret = redir_detector(data, data->par_line[i]);
 	if (ret == 2)
 	{
 		extract_input(data, index, i + 1);
-		if(exec_redirect(data, index, i) < 0)
+		if (exec_redirect(data, index, i) < 0)
 			return (-1);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/28 22:47:04 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:27:45 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,6 +204,7 @@ int		bridge_outfiles(t_data *data, int index, int last);
 
 // heredoc
 void	heredoc(t_data *data, int index);
+void	run_heredoc(t_data *data, int index);
 void	extract_hdockey(t_data *data, int i);
 int		compare_key(t_data *data, char *buffer, int len);
 
