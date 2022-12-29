@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:15:55 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 01:25:34 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 01:41:55 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	export_env(t_data *data)
 int	get_next(t_data *data, int *smal)
 {
 	int	i;
-	
 	int	s;
 
 	s = 0;
@@ -82,9 +81,9 @@ int	get_next(t_data *data, int *smal)
 			break ;
 	}
 	return (i);
-	while(data->envp[++i] != NULL)
+	while (data->envp[++i] != NULL)
 		run_envp(data, smal, i, s);
-	return(s);
+	return (s);
 }
 
 int	find_in_list(int *smal, int i)
@@ -95,7 +94,7 @@ int	find_in_list(int *smal, int i)
 	while (smal[++index] >= 0)
 	{
 		if (smal[index] == i)
-			return(-1);
+			return (-1);
 	}
 	return (index);
 }

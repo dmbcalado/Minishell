@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/29 01:38:00 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 01:50:45 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,7 @@ void	export_env(t_data *data);
 void	export_var(t_data *data, char *str);
 void	exec_builtin(t_data *data, int  i);
 void	run_envp(t_data *data, int *smal, int i, int s);
+int		create_new_envp(t_data *data, char **new_envp, int i, int flag);
 
 //utils
 int		find_in_list(int *smal, int i);
