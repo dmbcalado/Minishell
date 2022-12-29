@@ -6,28 +6,29 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 08:22:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/08/29 18:52:26 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:17:10 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-/* *************************************************************************** */
-/*							 Ctrl-C - SIGINT								   */
-/*							 Ctrl-\ - SIGQUIT								   */
-/*				 source: https://www.computerhope.com/unix/signals.htm         */
-/* *************************************************************************** */
-void    sig_handler(int signum)
+/* ****************************************************************************/
+/*							 Ctrl-C - SIGINT								  */
+/*							 Ctrl-\ - SIGQUIT								  */
+/*				 source: https://www.computerhope.com/unix/signals.htm        */
+/* ****************************************************************************/
+
+void	sig_handler(int signum)
 {
-    if (signum == SIGINT)
-    {
+	if (signum == SIGINT)
+	{
 		rl_on_new_line();
-        rl_redisplay();
-        printf("^C\n");
-        rl_on_new_line();
-        rl_replace_line("", 0);
-        rl_redisplay();
-    }
+		rl_redisplay();
+		printf("^C\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
 	else if (signum == SIGQUIT)
 	{
 		rl_on_new_line();
@@ -37,11 +38,11 @@ void    sig_handler(int signum)
 	}
 }
 
-void	sig_ignore(int	signum)
+void	sig_ignore(int signum)
 {
 	if (signum == SIGQUIT)
 	{
 		rl_on_new_line();
-        rl_redisplay();
+		rl_redisplay();
 	}
 }
