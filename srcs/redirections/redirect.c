@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 00:19:17 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 01:38:12 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	redirect(t_data *data)
 				break ;
 			if (ret > 1)
 			{
-				if (apply_redirect(data, i, index, ret) == -1)
+				if (apply_redirect(data, index, ret) == -1)
 					return (-1);
 			}
 		}
@@ -45,52 +45,53 @@ int	redirect(t_data *data)
 	return (1);
 }
 
-int	apply_redirect(t_data *data, int i, int index, int ret)
+int	apply_redirect(t_data *data, int index, int ret)
 {
 	if (ret < 4 && data->ids.flag_i == 0)
 	{
-		i = find_i_for_infile(data, index);
-		data->ids.flag_i = redirect_input(data, i, index);
+		data->redir.last = find_i_for_infile(data, index);
+		printf("data->redir.last %d\n", data->redir.last);
+		data->ids.flag_i = redirect_input(data, index);
 		if (data->ids.flag_i == -1)
 			return (-1);
 	}
 	if (ret > 3 && data->ids.flag_o == 0)
 	{
-		i = find_i_for_outfile(data, index);
-		data->ids.flag_o = redirect_output(data, i, index);
+		data->redir.last = find_i_for_outfile(data, index);
+		data->ids.flag_o = redirect_output(data, index);
 		if (data->ids.flag_o == -1)
 			return (-1);
 	}
 	return (1);
 }
 
-int	redirect_input(t_data *data, int i, int index)
+int	redirect_input(t_data *data, int index)
 {
 	int	ret;
 
-	if (bridge_infiles(data, index, i) < 0)
+	if (bridge_infiles(data, index) < 0)
 		return (-1);
-	ret = redir_detector(data, data->par_line[i]);
+	ret = redir_detector(data, data->par_line[data->redir.last]);
 	if (ret == 2)
 	{
-		extract_input(data, index, i + 1);
-		if (exec_redirect(data, index, i) < 0)
+		extract_input(data, index, data->redir.last + 1);
+		if (exec_redirect(data, index, data->redir.last) < 0)
 			return (-1);
 	}
 	else
 	{
-		extract_hdockey(data, i + 1);
+		extract_hdockey(data, data->redir.last + 1);
 		heredoc(data, index);
 	}
 	return (1);
 }
 
-int	redirect_output(t_data *data, int i, int index)
+int	redirect_output(t_data *data, int index)
 {
-	if (bridge_outfiles(data, index, i) < 0)
+	if (bridge_outfiles(data, index) < 0)
 		return (-1);
-	extract_output(data, index, i + 1);
-	if (exec_redirect(data, index, i) < 0)
+	extract_output(data, index, data->redir.last + 1);
+	if (exec_redirect(data, index, data->redir.last) < 0)
 		return (-1);
 	return (1);
 }

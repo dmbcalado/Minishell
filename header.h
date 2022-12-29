@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/29 00:27:45 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 01:38:00 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef	struct s_built
 
 typedef struct s_redir
 {
+	int		last;
 	int		input_n;
 	int		output_n;
 	int		append_n;
@@ -180,6 +181,7 @@ void	export(t_data *data, int index);
 void	export_env(t_data *data);
 void	export_var(t_data *data, char *str);
 void	exec_builtin(t_data *data, int  i);
+void	run_envp(t_data *data, int *smal, int i, int s);
 
 //utils
 int		find_in_list(int *smal, int i);
@@ -199,21 +201,26 @@ int		find_i_for_infile(t_data *data , int index);
 int		find_i_for_outfile(t_data *data , int index);
 void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
-int		bridge_infiles(t_data *data, int index, int last);
-int		bridge_outfiles(t_data *data, int index, int last);
+int		bridge_infiles(t_data *data, int index);
+int		bridge_outfiles(t_data *data, int index);
+int		bridging_infiles(t_data *data, int index, int i, int ret);
+int		bridging_outfiles(t_data *data, int i, int ret);
+
 
 // heredoc
 void	heredoc(t_data *data, int index);
-void	run_heredoc(t_data *data, int index);
+void	run_heredoc(t_data *data, int index, int len);
 void	extract_hdockey(t_data *data, int i);
 int		compare_key(t_data *data, char *buffer, int len);
 
 //running the redirections
 int		redirect(t_data *data);
-int		redirect_input(t_data *data, int i, int index);
-int		redirect_output(t_data *data, int i, int index);
+int		redirect_input(t_data *data, int index);
+int		redirect_output(t_data *data, int index);
 int		exec_redirect(t_data *data, int index, int save);
-int		apply_redirect(t_data *data, int i, int index, int ret);
+int		apply_redirect(t_data *data, int index, int ret);
+int		exec_out_redirect(t_data *data, int index, int save);
+int		exec_append_redir(t_data *data, int index, int save);
 
 
 //SIGNALS

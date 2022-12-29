@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/14 21:31:48 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 00:41:02 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 01:15:16 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	exec_redirect(t_data *data, int index, int i)
 			return (-1);
 		}
 	}
-	else if (exec_out_redirect(data, index, i, save) < 0)
+	else if (exec_out_redirect(data, index, save) < 0)
 		return (-1);
 	return (0);
 }
 
-int	exec_out_redirect(t_data *data, int index, int i, int save)
+int	exec_out_redirect(t_data *data, int index, int save)
 {
 	if (save == 4)
 	{
@@ -54,12 +54,12 @@ int	exec_out_redirect(t_data *data, int index, int i, int save)
 		else
 			printf("sucessefully opened %s\n", data->redir.output[index]);
 	}
-	else if (exec_append_redir(data, index, i, save) < 0)
+	else if (exec_append_redir(data, index, save) < 0)
 		return (-1);
 	return (1);
 }
 
-int	exec_append_redir(t_data *data, int index, int i, int save)
+int	exec_append_redir(t_data *data, int index, int save)
 {
 	if (save == 5)
 	{

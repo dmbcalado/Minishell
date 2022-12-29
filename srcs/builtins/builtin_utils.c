@@ -1,26 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run_builtins.c                                     :+:      :+:    :+:   */
+/*   builtin_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/07 18:35:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 00:53:35 by dmendonc         ###   ########.fr       */
+/*   Created: 2022/12/29 00:57:24 by dmendonc          #+#    #+#             */
+/*   Updated: 2022/12/29 01:24:20 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-void	exec_builtin(t_data *data, int i)
+void	run_envp(t_data *data, int *smal, int i, int s)
 {
-	int	jndex;
+	int	j;
 
-	jndex = builtin_detector(data, data->par_line[i]);
-	if (jndex == 2)
-		env(data);
-	else if (jndex == 3)
-		export(data, data->built.b_counter);
-	else if (jndex == 4)
-		unset(data, data->par_line[1]);
+	j = -1;
+	while (data->envp[i][++j] != 0)
+	{
+		if (data->envp[i][j] < data->envp[s][j])
+		{
+			if (find_in_list(smal, i) >= 0)
+			{
+				s = i;
+				break ;
+			}
+		}
+		else if (data->envp[i][j] == data->envp[s][j] && i != s)
+			continue ;
+		else
+			break ;
+	}
 }
