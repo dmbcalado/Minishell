@@ -6,13 +6,13 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/28 22:34:59 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/28 22:41:10 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 00:14:03 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-int	check_line_in_list(char *line, char **list)	// If the line doesn't exist, returns 0; Otherwise, returns the index in the list. 
+int	check_line_in_list(char *line, char **list)
 {
 	int	i;
 
@@ -33,9 +33,9 @@ void	parsing(char *line, char c)
 	{
 		ptr1 = ft_strchr(line, c);
 		if (ptr1 == NULL)
-			break;
+			break ;
 		else if (ft_strchr(ptr1 + 1, c) == NULL)
-			break;
+			break ;
 		else
 		{
 			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1], \
@@ -60,7 +60,7 @@ int	len_str(char *str)
 
 char	*str_cpy(char *dest, char *str)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (str[++i])
