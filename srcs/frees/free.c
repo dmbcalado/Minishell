@@ -6,16 +6,37 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:14:03 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/28 18:03:22 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 16:50:50 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
+void	free_line_info(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	free_builtins(data);
+	while (data->par_line[++i])
+		free (data->par_line[i]);
+	free(data->par_line);
+	free(data->redir.redir_lib);
+	i = -1;
+	while (data->paths.paths[++i])
+		free (data->paths.paths[i]);
+	free (data->paths.paths);
+	free (data->paths.p_str);
+	free (data->ids.inp_list);
+	free (data->ids.outp_list);
+	free_redir(data);
+	free (data->line);
+}
+
 void	free_cmds(t_data *data)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = -1;
 	i = -1;
@@ -39,21 +60,10 @@ void	free_cmds(t_data *data)
 	data->ids.out_fd = STDOUT_FILENO;
 }
 
-void	free_line_info(t_data *data)
+void	free_redir(t_data *data)
 {
-	int i;
-
-	i = -1;
-	free_builtins(data);
-	while (data->par_line[++i])
-		free (data->par_line[i]);
-	free(data->par_line);
-	free(data->redir.redir_lib);
-	i = -1;
-	while (data->paths.paths[++i])
-		free (data->paths.paths[i]);
-	free (data->paths.paths);
-	free (data->paths.p_str);
+	free (data->ids.inp_list);
+	free (data->ids.outp_list);
 	if (data->redir.input_n > 0)
 	{
 		i = -1;
@@ -68,20 +78,17 @@ void	free_line_info(t_data *data)
 			free (data->redir.output[i]);
 		free (data->redir.output);
 	}
-	free (data->ids.inp_list);
-	free (data->ids.outp_list);
-	free (data->line);
 }
 
 void	free_builtins(t_data *data)
 {
-	int i;
+	int	i;
 	int	j;
-	
-	if(data->built.builtin_n > 0)
+
+	if (data->built.builtin_n > 0)
 	{
 		i = -1;
- 		while (data->built.builtin[++i])
+		while (data->built.builtin[++i])
 		{
 			j = -1;
 			while (data->built.builtin[i][++j])

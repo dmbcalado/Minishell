@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/29 01:50:45 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 16:53:12 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,17 @@
 
 // Libraries in the header below
 
-#include "./libft/libft.h"
-#include "./gnl/get_next_line.h"
+# include "./libft/libft.h"
+# include "./gnl/get_next_line.h"
 
 // struct dos builtins
 
-typedef	struct s_built
+typedef struct s_built
 {
 	int		args;
 	int		b_counter;
 	int		builtin_n;
-	char	**builtins;			// uma lista com o nome de todos os builtins
+	char	**builtins;
 	char	***builtin;
 }				t_built;
 
@@ -42,14 +42,14 @@ typedef struct s_redir
 	int		output_c;
 	int		append_c;
 	char	*hdoc_key;
-	char 	*redir_lib;
-	char 	**output;
+	char	*redir_lib;
+	char	**output;
 	char	**input;
 }				t_redir;
 
 // struct dos comandos
 
-typedef struct	s_cmd
+typedef struct s_cmd
 {
 	int		c_counter;
 	char	**cmd;
@@ -61,7 +61,7 @@ typedef struct	s_cmd
 
 // struct dos ids
 
-typedef struct	s_ids
+typedef struct s_ids
 {
 	int		*inp_list;
 	int		*outp_list;
@@ -69,27 +69,26 @@ typedef struct	s_ids
 	int		*hered_list;
 	int		flag_i;
 	int		flag_o;
-	int		in_fd;	//associar o fd se infile. se nao = 0 (para ser o STDIN)
-	int		out_fd; //associar o fd se outfile. se nao = 1 (para ser o STDIN)
-	int		**pfd;		//fd dos pipes, em forma de double array, [index][0 ou 1]
+	int		in_fd;
+	int		out_fd;
+	int		**pfd;
 	pid_t	id;
 }				t_ids;
 
 // struct das paths
 
-typedef	struct s_paths
+typedef struct s_paths
 {
 	char	*test_cmd;
-	char	*p_str; 	// e onde fica a string inical depois do PATH:
-	char	**spaths;	// temporario
-	char	**paths;	// paths ja com a barra '/'
-	char	**path_cmd; // se encontrar um ficheiro executavel assume path/cmd
-	
+	char	*p_str;
+	char	**spaths;
+	char	**paths;
+	char	**path_cmd;
 }				t_paths;
 
 // BIG MOMA
 
-typedef struct	s_data
+typedef struct s_data
 {
 	int		size;
 	char	**par_line;
@@ -107,7 +106,6 @@ typedef struct	s_data
 int		len_str(char *str);
 void	set_counters(t_data *data);
 char	*str_cpy(char *dest, char *str);
-
 
 // new split
 int		count_rows(char *s, char c);
@@ -134,7 +132,6 @@ int		builtin_detector(t_data *data, char *str);
 int		cmd_detector(t_data *data, char *str);
 int		handle_redir_cases(t_data *data, char *str, int i, int j);
 
-
 //ENVIRONMENT
 //parsing the env and extracting the paths
 void	get_envp(t_data *data, char **envp);
@@ -142,7 +139,7 @@ void	get_paths(t_data *data);
 
 //environment utils
 char	*add_str(char *str);
-char	*add_estr(t_data *data , int index);
+char	*add_estr(t_data *data, int index);
 int		equal(t_data *data, char *string, int index);
 
 //PATH HANDLING
@@ -151,7 +148,7 @@ int		compare(const char *s1, const char *s2);
 int		p_size(t_data *data, char *str, int i_p);
 int		path_size(t_data *data, int index, int i_p);
 void	path_join(t_data *data, int index, int i_p);
-void 	copy_path_str(t_data *data, int i);
+void	copy_path_str(t_data *data, int i);
 
 //COMMANDS
 //parsing and testing if its executable
@@ -162,6 +159,7 @@ int		acessing_cmd(t_data *data, int index);
 void	pipes(t_data *data);
 void	run_processes(t_data *data, int index);
 void	run_one_cmd(t_data *data, int in_fd, int out_fd);
+void	child_one(t_data *data, int in_fd, int out_fd);
 void	run_father(t_data *data, int index);
 
 // cmds - utils
@@ -180,7 +178,7 @@ void	unset(t_data *data, char *str);
 void	export(t_data *data, int index);
 void	export_env(t_data *data);
 void	export_var(t_data *data, char *str);
-void	exec_builtin(t_data *data, int  i);
+void	exec_builtin(t_data *data, int i);
 void	run_envp(t_data *data, int *smal, int i, int s);
 int		create_new_envp(t_data *data, char **new_envp, int i, int flag);
 
@@ -195,18 +193,17 @@ char	*selection(t_data *data, int j);
 
 void	reset_counters(t_data *data);
 void	alloc_redirections(t_data *data);
-void	parse_redirec (t_data *data, int i);
+void	parse_redirec(t_data *data, int i);
 
 // input and output
-int		find_i_for_infile(t_data *data , int index);
-int		find_i_for_outfile(t_data *data , int index);
+int		find_i_for_infile(t_data *data, int index);
+int		find_i_for_outfile(t_data *data, int index);
 void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
 int		bridge_infiles(t_data *data, int index);
 int		bridge_outfiles(t_data *data, int index);
 int		bridging_infiles(t_data *data, int index, int i, int ret);
 int		bridging_outfiles(t_data *data, int i, int ret);
-
 
 // heredoc
 void	heredoc(t_data *data, int index);
@@ -223,10 +220,9 @@ int		apply_redirect(t_data *data, int index, int ret);
 int		exec_out_redirect(t_data *data, int index, int save);
 int		exec_append_redir(t_data *data, int index, int save);
 
-
 //SIGNALS
-void    sig_handler(int signum);
-void	sig_ignore(int	signum);
+void	sig_handler(int signum);
+void	sig_ignore(int signum);
 void	exit_shell_sig(int sig);
 void	exit_shell(t_data *data);
 
@@ -237,6 +233,7 @@ int		count_cmds_left(t_data *data, int i);
 
 //FREES
 void	free_cmds(t_data *data);
+void	free_redir(t_data *data);
 void	free_builtins(t_data *data);
 void	free_line_info(t_data *data);
 #endif

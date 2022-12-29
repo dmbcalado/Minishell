@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/30 16:53:40 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/09/17 00:09:51 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/29 16:58:39 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,57 +24,12 @@ void	run_processes(t_data *data, int index)
 	if (data->ids.id == 0)
 	{
 		if (index == 0)
-		{
-			close (data->ids.pfd[index][0]);
-			if (data->ids.inp_list[index] != STDIN_FILENO)
-			{
-				dup2 (data->ids.inp_list[index], STDIN_FILENO);
-				data->redir.input_c++;
-			}
-			if (data->ids.outp_list[index] != STDOUT_FILENO)
-			{
-				dup2 (data->ids.outp_list[index], STDOUT_FILENO);
-				data->redir.output_c++;
-			}
-			else
-				dup2(data->ids.pfd[index][1], STDOUT_FILENO);
-		}
+			run_first_child(data, index);
 		else if (index == data->cmd.cmd_nbr - 1)
-		{
-			close (data->ids.pfd[index - 1][1]);
-			if (data->ids.inp_list[index] == STDIN_FILENO)
-				dup2(data->ids.pfd[index - 1][0], STDIN_FILENO);
-			else
-			{
-				dup2(data->ids.inp_list[index], STDIN_FILENO);
-				data->redir.input_c++;
-			}
-			if (data->ids.outp_list[index] != STDOUT_FILENO)
-			{
-				dup2 (data->ids.outp_list[index], STDOUT_FILENO);
-				data->redir.output_c++;
-			}
-		}
+			run_last_child(data, index);
 		else
-		{
-			close (data->ids.pfd[index - 1][1]);
-			close (data->ids.pfd[index][0]);
-			if (data->ids.inp_list[index] == STDIN_FILENO)
-				dup2(data->ids.pfd[index - 1][0], STDIN_FILENO);
-			else
-			{
-				dup2(data->ids.inp_list[index], STDIN_FILENO);
-				data->redir.input_c++;
-			}
-			if (data->ids.outp_list[index] == STDOUT_FILENO)
-				dup2(data->ids.pfd[index - 1][0], STDOUT_FILENO);
-			else
-			{
-				dup2(data->ids.outp_list[index], STDOUT_FILENO);
-				data->redir.output_c++;
-			}
-		}
-		execve (data->paths.path_cmd[index], data->cmd.cmdx[index], data->envp);
+			run_middle_child(data, index);
+		execve(data->paths.path_cmd[index], data->cmd.cmdx[index], data->envp);
 	}
 	else
 		run_father (data, index);
