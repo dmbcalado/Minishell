@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 02:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 00:24:39 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/18 20:35:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	find_i_for_infile(t_data *data, int index)
 	while (++ind_c <= index)
 	{
 		save = 0;
-		while (data->par_line[++i] && \
-		redir_detector(data, data->par_line[i]) != 1)
+		while (data->par_line[++i] && redir_detector(data, data->par_line[i]) \
+		!= 1)
 		{
 			if (redir_detector(data, data->par_line[i]) > 1)
 			{
@@ -49,6 +49,7 @@ int	find_i_for_infile(t_data *data, int index)
 			}
 		}
 	}
+	data->redir.last = save;
 	return (save);
 }
 
@@ -68,20 +69,19 @@ int	find_i_for_outfile(t_data *data, int index)
 
 	i = -1;
 	ind_c = -1;
+	save = 0;
 	while (++ind_c <= index)
 	{
-		save = 0;
 		while (data->par_line[++i] && \
 		redir_detector(data, data->par_line[i]) != 1)
 		{
 			if (redir_detector(data, data->par_line[i]) > 1)
 			{
-				if (redir_detector(data, data->par_line[i]) == 4)
-					save = i;
-				else if (redir_detector(data, data->par_line[i]) == 5)
+				if (redir_detector(data, data->par_line[i]) > 3)
 					save = i;
 			}
 		}
 	}
+	data->redir.last = save;
 	return (save);
 }

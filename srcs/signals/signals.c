@@ -3,46 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 08:22:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/29 00:17:10 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:31:16 by anfreire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-/* ****************************************************************************/
-/*							 Ctrl-C - SIGINT								  */
-/*							 Ctrl-\ - SIGQUIT								  */
-/*				 source: https://www.computerhope.com/unix/signals.htm        */
-/* ****************************************************************************/
-
-void	sig_handler(int signum)
+extern int	g_exit;
+/* *************************************************************************** */
+/*							 Ctrl-C - SIGINT								   */
+/*							 Ctrl-\ - SIGQUIT								   */
+/*				 source: https://www.computerhope.com/unix/signals.htm         */
+/* *************************************************************************** */
+void    sig_handler(int signum)
 {
-	if (signum == SIGINT)
-	{
-		rl_on_new_line();
-		rl_redisplay();
-		printf("^C\n");
-		rl_on_new_line();
+    if (signum == SIGINT)
+    {
+		g_exit = 130;
+		ioctl(STDIN_FILENO, TIOCSTI, "\n");//injetar input no terminal
 		rl_replace_line("", 0);
-		rl_redisplay();
-	}
-	else if (signum == SIGQUIT)
-	{
 		rl_on_new_line();
-		printf("\n");
-		rl_replace_line("[1]+  Stopped", 13);
-		rl_redisplay();
-	}
+    }
 }
 
-void	sig_ignore(int signum)
+void    sig_handler_one(int signum)
 {
-	if (signum == SIGQUIT)
-	{
+    if (signum == SIGINT)
+    {
+		g_exit = 130;
+		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();
+    }
+}
+
+void	back_slash(int sig)
+{
+	if (sig == SIGQUIT)
+	{
+		g_exit = 131;
+		printf("Quit (core dumped)\n");	
 	}
 }

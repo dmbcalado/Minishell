@@ -6,19 +6,20 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 18:29:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/28 22:55:04 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/21 19:45:29 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../header.h"
 
+extern int	g_exit;
 // colects environment intrinsic to the computer and allocates
 // to our own environment.
 
 void	get_envp(t_data *data, char **envp)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (envp[i])
@@ -26,15 +27,15 @@ void	get_envp(t_data *data, char **envp)
 	data->envp = (char **)malloc((i + 1) * sizeof(char *));
 	data->envp[i] = NULL;
 	i = -1;
-	while (envp[++i] != NULL)
+	while (envp[++i])
 	{
 		j = 0;
-		while (envp[i][j])
+		while(envp[i][j])
 			j++;
 		data->envp[i] = (char *)malloc((j + 1) * sizeof(char));
 		data->envp[i][j] = '\0';
 		j = -1;
-		while (envp[i][++j] != 0)
+		while(envp[i][++j] != 0)
 			data->envp[i][j] = envp[i][j];
 	}
 }
@@ -47,6 +48,13 @@ void	env(t_data *data)
 	int	i;
 
 	i = -1;
+	if (data->par_line[1])
+	{
+		printf("env: \'%s\': No such file or directory\n", data->par_line[1]);
+		g_exit = 127;
+		return ;
+	}
 	while (data->envp[++i])
-		printf("%s\n", data->envp[i]);
+		printf("%s\n",data->envp[i]);
+	g_exit = 0;
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/19 17:20:36 by ratinhosujo       #+#    #+#             */
-/*   Updated: 2022/12/29 01:10:28 by dmendonc         ###   ########.fr       */
+/*   Created: 2022/09/19 17:20:36 by dmendonc          #+#    #+#             */
+/*   Updated: 2022/11/28 15:16:34 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,64 +14,46 @@
 
 int	bridge_infiles(t_data *data, int index)
 {
-	int	count;
 	int	i;
 	int	ret;
+	int	count;
 
-	i = 0;
+	i = -1;
+	ret = 0;
 	count = -1;
 	while (++count <= index)
 	{
-		while (data->par_line[i])
+		while (data->par_line[++i] != NULL)
 		{
-			ret = redir_detector (data, data->par_line[i]);
-			if (ret == 1)
+			ret = bridging_infiles(data, index, count, i);
+			if (ret == -2)
 				break ;
-			if (bridging_infiles(data, index, i, ret) < 0)
+			else if (ret == -1)
 				return (-1);
-			i++;
 		}
 	}
 	return (1);
 }
 
-int	bridge_outfiles(t_data *data, int index)
+int	bridging_infiles(t_data *data, int index, int count, int i)
 {
-	int	count;
-	int	i;
 	int	ret;
 
-	i = 0;
-	count = -1;
-	while (++count <= index)
-	{
-		while (data->par_line[i])
-		{
-			ret = redir_detector (data, data->par_line[i]);
-			if (ret == 1)
-				break ;
-			if (bridging_outfiles(data, i, ret) < 0)
-				return (-1);
-			i++;
-		}
-	}
-	return (1);
-}
-
-int	bridging_infiles(t_data *data, int index, int i, int ret)
-{
-	if (ret > 1)
+	ret = redir_detector (data, data->par_line[i]);
+	if (ret == 1)
+		return (-2);
+	if (ret > 1 && count == index)
 	{
 		if (ret == 2 && i != data->redir.last)
 		{
 			if (open(data->par_line[i + 1], O_RDONLY) < 0)
 			{
-				printf("Error: the file %s does not exist.", \
-				data->par_line[i + 1]);
+				printf("Error: the file %s does not exist."\
+				, data->par_line[i + 1]);
 				return (-1);
 			}
 		}
-		if (ret == 3 && i != data->redir.last)
+		else if (ret == 3 && i != data->redir.last)
 		{
 			extract_hdockey(data, i + 1);
 			heredoc(data, index);
@@ -80,20 +62,55 @@ int	bridging_infiles(t_data *data, int index, int i, int ret)
 	return (1);
 }
 
-int	bridging_outfiles(t_data *data, int i, int ret)
+int	bridge_outfiles(t_data *data, int index)
 {
-	if (ret > 1)
+	int	i;
+	int	ret;
+	int	count;
+
+	i = -1;
+	ret = 0;
+	count = -1;
+	while (++count <= index)
 	{
-		if (ret == 4 && i != data->redir.last)
+		while (data->par_line[++i])
 		{
-			if (open(data->par_line[i + 1], O_CREAT | O_TRUNC, 0644) < 0)
-				return (-1);
-		}
-		else if (ret == 5 && i != data->redir.last)
-		{
-			if (open(data->par_line[i + 1], O_CREAT | O_APPEND, 0644) < 0)
+			ret = bridging_outfiles(data, index, count, i);
+			if (ret == 0)
+				break ;
+			else if (ret == -1)
 				return (-1);
 		}
 	}
 	return (1);
 }
+
+int	bridging_outfiles(t_data *data, int index, int count, int i)
+{
+	int	ret;
+
+	while (data->par_line[i])
+	{
+		ret = redir_detector (data, data->par_line[i]);
+		if (ret == 1)
+			return (0);
+		if (ret > 1 && count == index)
+		{
+			if (ret == 4 && i != data->redir.last)
+			{
+				if (open(data->par_line[i + 1], O_CREAT | O_RDWR \
+				| O_TRUNC, 777) < 0)
+					return (-1);
+			}
+			if (ret == 5 && i != data->redir.last)
+			{
+				if (open(data->par_line[i + 1], O_CREAT | O_RDWR \
+				| O_APPEND, 777) < 0)
+					return (-1);
+			}
+		}
+		i++;
+	}
+	return (i);
+}
+

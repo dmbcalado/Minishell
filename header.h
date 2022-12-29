@@ -6,16 +6,16 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/29 16:53:12 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:30:58 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
-
+# define BUFFER_SIZE 42
 // Libraries in the header below
 
-# include "./libft/libft.h"
+# include "libft/libft.h"
 # include "./gnl/get_next_line.h"
 
 // struct dos builtins
@@ -33,7 +33,9 @@ typedef struct s_built
 
 typedef struct s_redir
 {
+	int		hdoc_id;
 	int		last;
+	int		r_counter;
 	int		input_n;
 	int		output_n;
 	int		append_n;
@@ -41,6 +43,7 @@ typedef struct s_redir
 	int		input_c;
 	int		output_c;
 	int		append_c;
+	int		father_flag;
 	char	*hdoc_key;
 	char	*redir_lib;
 	char	**output;
@@ -67,12 +70,10 @@ typedef struct s_ids
 	int		*outp_list;
 	int		*appnd_list;
 	int		*hered_list;
-	int		flag_i;
-	int		flag_o;
 	int		in_fd;
 	int		out_fd;
 	int		**pfd;
-	pid_t	id;
+	pid_t	*id;
 }				t_ids;
 
 // struct das paths
@@ -86,11 +87,19 @@ typedef struct s_paths
 	char	**path_cmd;
 }				t_paths;
 
+// struct para uso de builtins do Andre
+typedef struct s_andre
+{
+	int		args;
+	int		flag;
+	char	**c_dbl_ptr;
+	char	*c_ptr;
+}				t_andre;
+
 // BIG MOMA
 
 typedef struct s_data
 {
-	int		size;
 	char	**par_line;
 	char	*line;
 	char	**envp;
@@ -99,12 +108,14 @@ typedef struct s_data
 	t_paths	paths;
 	t_redir	redir;
 	t_built	built;
+	t_andre	andre;
 }				t_data;
+
+void	starting(t_data *data, char *envp[]);
 
 //UTILS
 // utils
 int		len_str(char *str);
-void	set_counters(t_data *data);
 char	*str_cpy(char *dest, char *str);
 
 // new split
@@ -130,7 +141,15 @@ int		full_detector(t_data *data, char *str);
 int		redir_detector(t_data *data, char *str);
 int		builtin_detector(t_data *data, char *str);
 int		cmd_detector(t_data *data, char *str);
-int		handle_redir_cases(t_data *data, char *str, int i, int j);
+
+//parssing line
+void	trim_spaces(char *str);
+int		is_str_in_quotes(char *str, char c);
+char	*is_string_expandable(char *str, t_data *data);
+char	*realloc_string(char *ptr, char *str, int flag);
+char	**realloc_list(char **ptr, int len);
+char	**build_list(int len, char **ptr, char *str, t_data *data);
+void	parse_line(t_data *data);
 
 //ENVIRONMENT
 //parsing the env and extracting the paths
@@ -148,19 +167,22 @@ int		compare(const char *s1, const char *s2);
 int		p_size(t_data *data, char *str, int i_p);
 int		path_size(t_data *data, int index, int i_p);
 void	path_join(t_data *data, int index, int i_p);
-void	copy_path_str(t_data *data, int i);
+int		true_path_join(t_data *data, int index, int i);
 
 //COMMANDS
 //parsing and testing if its executable
+void	command_not_found(t_data *data);
+void	parse_cmds(t_data *data);
 void	parse_cmd(t_data *data, int index);
-int		acessing_cmd(t_data *data, int index);
+int		acessing_cmd(t_data *data, int index, int i);
+void	true_path(t_data *data, int index, int i, int count);
 
 //running commands
-void	pipes(t_data *data);
 void	run_processes(t_data *data, int index);
-void	run_one_cmd(t_data *data, int in_fd, int out_fd);
-void	child_one(t_data *data, int in_fd, int out_fd);
+void	run_command(t_data *data, int index, int cmd_i, int i);
 void	run_father(t_data *data, int index);
+void	run_one_father(t_data *data);
+void	run_child(t_data *data, int index);
 
 // cmds - utils
 void	count_cmds(t_data *data);
@@ -169,20 +191,29 @@ void	count_cmds(t_data *data);
 // parsing builtins
 void	get_str(t_data *data, char *str, int index);
 void	builting(t_data *data, int i, int index);
-void	built_builting(t_data *data, int i, int index);
+void	built_builting(t_data *data, int i, int size, int index);
 void	parse_builtin(t_data *data, int i, int index);
 
 //env, export and unset builtins
+void	parse_export(t_data *data);
 void	env(t_data *data);
 void	unset(t_data *data, char *str);
-void	export(t_data *data, int index);
+void	export(t_data *data);
 void	export_env(t_data *data);
 void	export_var(t_data *data, char *str);
-void	exec_builtin(t_data *data, int i);
-void	run_envp(t_data *data, int *smal, int i, int s);
-int		create_new_envp(t_data *data, char **new_envp, int i, int flag);
+void	exec_builtin(t_data *data, int index, int i);
+void	execve_builtin(t_data *data, int jndex, int i);
+
+//cd, echo, and pwd, minishell and exit builtins
+void	b_echo(t_data *data, int index);
+void	echo_with_n_flag(t_data *data);
+void	b_pwd(void);
+void	b_cd(t_data *data);
+void	run_minishell(t_data *data, int index);
+void	exit_minishell(t_data *data);
 
 //utils
+int		is_dot_cmd(char *str);
 int		find_in_list(int *smal, int i);
 int		get_next(t_data *data, int *smal);
 int		env_var_detector(t_data *data, char *str);
@@ -195,6 +226,17 @@ void	reset_counters(t_data *data);
 void	alloc_redirections(t_data *data);
 void	parse_redirec(t_data *data, int i);
 
+//pipes
+void	pipes(t_data *data);
+void	piping(t_data *data, int index, int fn);
+void	redirecting_input(t_data *data, int index);
+void	redirecting_output(t_data *data, int index);
+void	piping_first(t_data *data, int index);
+void	piping_last(t_data *data, int index);
+int		walk_till_pipe(t_data *data, int i);
+int		redirect_input(t_data *data, int index);
+int		redirect_output(t_data *data, int index);
+
 // input and output
 int		find_i_for_infile(t_data *data, int index);
 int		find_i_for_outfile(t_data *data, int index);
@@ -202,38 +244,34 @@ void	extract_input(t_data *data, int index, int i);
 void	extract_output(t_data *data, int index, int i);
 int		bridge_infiles(t_data *data, int index);
 int		bridge_outfiles(t_data *data, int index);
-int		bridging_infiles(t_data *data, int index, int i, int ret);
-int		bridging_outfiles(t_data *data, int i, int ret);
+int		bridging_infiles(t_data *data, int index, int count, int i);
+int		bridging_outfiles(t_data *data, int index, int count, int i);
 
 // heredoc
 void	heredoc(t_data *data, int index);
-void	run_heredoc(t_data *data, int index, int len);
 void	extract_hdockey(t_data *data, int i);
 int		compare_key(t_data *data, char *buffer, int len);
 
 //running the redirections
 int		redirect(t_data *data);
-int		redirect_input(t_data *data, int index);
-int		redirect_output(t_data *data, int index);
-int		exec_redirect(t_data *data, int index, int save);
-int		apply_redirect(t_data *data, int index, int ret);
+int		exec_in_redirect(t_data *data, int index, int save);
 int		exec_out_redirect(t_data *data, int index, int save);
-int		exec_append_redir(t_data *data, int index, int save);
 
 //SIGNALS
+void	sig_handler_one(int signum);
 void	sig_handler(int signum);
-void	sig_ignore(int signum);
 void	exit_shell_sig(int sig);
+void	back_slash(int sig);
 void	exit_shell(t_data *data);
 
 //MAIN
 void	brain(t_data *data);
-void	braining_cmds(t_data *data);
 int		count_cmds_left(t_data *data, int i);
 
 //FREES
+void	close_files(t_data *data);
 void	free_cmds(t_data *data);
-void	free_redir(t_data *data);
 void	free_builtins(t_data *data);
 void	free_line_info(t_data *data);
+void	free_for_builtins(t_data *data);
 #endif

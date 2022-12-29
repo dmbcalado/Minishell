@@ -1,35 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin_utils.c                                    :+:      :+:    :+:   */
+/*   cmd_not_found.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/29 00:57:24 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 01:43:22 by dmendonc         ###   ########.fr       */
+/*   Created: 2022/11/23 17:26:55 by dmendonc          #+#    #+#             */
+/*   Updated: 2022/11/23 18:26:23 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-void	run_envp(t_data *data, int *smal, int i, int s)
+void	command_not_found(t_data *data)
 {
-	int	j;
+	int	i;
+	int	len;
 
-	j = -1;
-	while (data->envp[i][++j] != 0)
+	i = -1;
+	while (data->par_line[++i] != NULL)
 	{
-		if (data->envp[i][j] < data->envp[s][j])
+		if (redir_detector(data, data->par_line[i]) == 0)
 		{
-			if (find_in_list(smal, i) >= 0)
-			{
-				s = i;
-				break ;
-			}
-		}
-		else if (data->envp[i][j] == data->envp[s][j] && i != s)
-			continue ;
-		else
+			len = ft_strlen(data->par_line[i]);
+			write(2, data->par_line[i], len);
+			write(2, ": command not found\n", 19);
 			break ;
+		}
+		else if (data->par_line[i + 2])
+			i++;
 	}
 }

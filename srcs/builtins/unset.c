@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:17:20 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 01:50:53 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:02:44 by anfreire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
+
+extern int	g_exit;
+//safety numeros
+
+static int	starts_with_wrong_char(char c)
+{
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)\
+	|| c == 95)
+		return (0);
+	else
+		return (1);
+}
 
 void	unset(t_data *data, char *str)
 {
@@ -22,38 +34,39 @@ void	unset(t_data *data, char *str)
 	j = 0;
 	flag = 0;
 	i = env_var_detector(data, str);
+	if (starts_with_wrong_char(str[0]))
+	{
+		printf("minishell: unset: \'%s\': not a valid identifier\n", str);
+		g_exit = 1;
+		return ;
+	}
+	printf("i %d\n", i);
+	g_exit = 0;
 	if (i >= 0)
 	{
 		while (data->envp[j])
 			j++;
 		new_envp = (char **)malloc(j * sizeof(char *));
 		new_envp[j - 1] = NULL;
-		flag = create_new_envp(data, new_envp, i, flag);
+		j = -1;
+		while(data->envp[++j])
+		{
+			if (j != i)
+				new_envp[j - flag] = selection(data, j);
+			else
+				flag = 1;
+			free(data->envp[j]);
+		}
+		free(data->envp);
+		data->envp = new_envp;
 	}
-}
-
-int	create_new_envp(t_data *data, char **new_envp, int i, int flag)
-{
-	int	j;
-
-	j = -1;
-	while (data->envp[++j])
-	{
-		if (j != i)
-			new_envp[j - flag] = selection(data, j);
-		else
-			flag = 1;
-		free(data->envp[j]);
-	}
-	free(data->envp);
-	data->envp = new_envp;
-	return (flag);
 }
 
 char	*selection(t_data *data, int j)
 {
 	int		len;
 	char	*str;
+
 
 	len = len_str(data->envp[j]);
 	str = (char *)malloc((len + 1) * sizeof(char));
@@ -64,6 +77,7 @@ char	*selection(t_data *data, int j)
 	return (str);
 }
 
+
 int	env_var_detector(t_data *data, char *str)
 {
 	int		i;
@@ -73,16 +87,16 @@ int	env_var_detector(t_data *data, char *str)
 	i = -1;
 	while (data->envp[++i])
 	{
-		j = -1;
-		len = len_str(data->envp[i]);
-		while (str[++j] && j < len)
-		{
-			if (str[j] != data->envp[i][j])
-				break ;
-		}
-		len = len_str(str);
-		if (j == len)
-			return (i);
+			j = -1;
+			len = len_str(data->envp[i]);
+			while (str[++j] && j < len)
+			{
+				if (str[j] != data->envp[i][j])
+					break ;
+			}
+			len = len_str(str);
+			if (j == len)
+				return (i);
 	}
 	return (-1);
 }

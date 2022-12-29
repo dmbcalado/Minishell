@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/08 22:14:03 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/29 16:50:50 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/09 13:50:10 by dmendonc      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-
-void	free_line_info(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	free_builtins(data);
-	while (data->par_line[++i])
-		free (data->par_line[i]);
-	free(data->par_line);
-	free(data->redir.redir_lib);
-	i = -1;
-	while (data->paths.paths[++i])
-		free (data->paths.paths[i]);
-	free (data->paths.paths);
-	free (data->paths.p_str);
-	free (data->ids.inp_list);
-	free (data->ids.outp_list);
-	free_redir(data);
-	free (data->line);
-}
 
 void	free_cmds(t_data *data)
 {
@@ -39,45 +18,55 @@ void	free_cmds(t_data *data)
 	int	j;
 
 	i = -1;
-	i = -1;
 	while (data->paths.path_cmd[++i])
-		free (data->paths.path_cmd[i]);
+		free(data->paths.path_cmd[i]);
+	free(data->paths.path_cmd);
 	i = -1;
-	free (data->paths.path_cmd);
 	while (data->cmd.cmdx[++i])
 	{
 		j = -1;
 		while (data->cmd.cmdx[i][++j])
-			free (data->cmd.cmdx[i][j]);
-		free (data->cmd.cmdx[i]);
+			free(data->cmd.cmdx[i][j]);
+		free(data->cmd.cmdx[i]);
 	}
 	free(data->cmd.cmdx);
 	i = -1;
 	while (data->ids.pfd[++i])
-		free (data->ids.pfd[i]);
-	free (data->ids.pfd);
+		free(data->ids.pfd[i]);
+	free(data->ids.pfd);
+	i = -1;
+	free(data->ids.id);
 	data->ids.in_fd = STDIN_FILENO;
 	data->ids.out_fd = STDOUT_FILENO;
 }
 
-void	free_redir(t_data *data)
+void	free_line_info(t_data *data)
 {
+	int	i;
+
+	i = -1;
+	if (data->cmd.cmd_nbr > 0)
+		free_cmds(data);
+	while (data->par_line[++i])
+		free (data->par_line[i]);
+	free(data->par_line);
+	free_builtins(data);
+	free(data->redir.redir_lib);
+	i = -1;
+	while (data->paths.paths[++i])
+		free (data->paths.paths[i]);
+	free (data->paths.paths);
+	free (data->paths.p_str);
+	i = -1;
+	while (data->redir.input[++i])
+		free(data->redir.input[i]);
+	free(data->redir.input);
+	i = -1;
+	while (data->redir.output[++i])
+		free (data->redir.output[i]);
+	free (data->redir.output);
 	free (data->ids.inp_list);
 	free (data->ids.outp_list);
-	if (data->redir.input_n > 0)
-	{
-		i = -1;
-		while (data->redir.input[++i])
-			free (data->redir.input[i]);
-		free (data->redir.input);
-	}
-	if (data->redir.output_n > 0)
-	{
-		i = -1;
-		while (data->redir.output[++i])
-			free (data->redir.output[i]);
-		free (data->redir.output);
-	}
 }
 
 void	free_builtins(t_data *data)
@@ -88,11 +77,11 @@ void	free_builtins(t_data *data)
 	if (data->built.builtin_n > 0)
 	{
 		i = -1;
-		while (data->built.builtin[++i])
+		while (data->built.builtin[++i] != NULL)
 		{
 			j = -1;
-			while (data->built.builtin[i][++j])
-				free (data->built.builtin[i][j]);
+			while (data->built.builtin[i][++j] != NULL)
+				free(data->built.builtin[i][j]);
 			free (data->built.builtin[i]);
 		}
 		free (data->built.builtin);
@@ -101,4 +90,17 @@ void	free_builtins(t_data *data)
 	while (data->built.builtins[++i])
 		free (data->built.builtins[i]);
 	free (data->built.builtins);
+}
+
+void	free_for_builtins(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	while (data->envp[++i])
+		free(data->envp[i]);
+	free(data->envp);
+	free(data->ids.id);
+	if (data->redir.hdoc_key != NULL)
+		free(data->redir.hdoc_key);
 }

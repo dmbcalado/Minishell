@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_built.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 23:07:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/28 21:48:48 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/11/15 14:50:57 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ void	builting(t_data *data, int i, int index)
 	while (data->par_line[i])
 	{
 		if (full_detector(data, data->par_line[i]) < 1)
-			built_builting(data, size, index);
+			built_builting(data, i, size, index);
 		else if (full_detector(data, data->par_line[i]) == 1 && size == 0)
-			built_builting(data, i, index);
+			built_builting(data, i, size, index);
 		else
 			break ;
 		i++;
@@ -64,14 +64,14 @@ void	builting(t_data *data, int i, int index)
 	}
 }
 
-void	built_builting(t_data *data, int i, int index)
+void	built_builting(t_data *data, int i, int size, int index)
 {
 	int	len;
 
 	len = len_str(data->par_line[i]) + 1;
-	data->built.builtin[index][i] = (char *)malloc(len * sizeof(char));
-	data->built.builtin[index][i][len - 1] = 0;
+	data->built.builtin[index][size] = (char *)malloc(len * sizeof(char));
+	data->built.builtin[index][size][len - 1] = 0;
 	len = -1;
 	while (data->par_line[i][++len])
-		data->built.builtin[index][i][len] = data->par_line[i][len];
+		data->built.builtin[index][size][len] = data->par_line[i][len];
 }
