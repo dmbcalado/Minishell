@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 18:29:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/21 19:45:29 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/30 00:50:44 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,12 @@ void	get_envp(t_data *data, char **envp)
 	while (envp[++i])
 	{
 		j = 0;
-		while(envp[i][j])
+		while (envp[i][j])
 			j++;
 		data->envp[i] = (char *)malloc((j + 1) * sizeof(char));
 		data->envp[i][j] = '\0';
 		j = -1;
-		while(envp[i][++j] != 0)
+		while (envp[i][++j] != 0)
 			data->envp[i][j] = envp[i][j];
 	}
 }
@@ -55,6 +55,6 @@ void	env(t_data *data)
 		return ;
 	}
 	while (data->envp[++i])
-		printf("%s\n",data->envp[i]);
+		printf("%s\n", data->envp[i]);
 	g_exit = 0;
 }
