@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/28 16:30:58 by dmendonc         ###   ########.fr       */
+/*   Updated: 2022/12/30 02:53:55 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,12 @@ char	**spliting(char *s, char c);
 int		find_c(char *s, char c, int index);
 int		find_len(char *s, char c, int index);
 char	*substring(char *s, int start, int len);
+void	set_counters(t_data *data);
 
 //PARSING
 //allocation of needed information
 void	alloc_cmds(t_data *data);
+void	allocat_lists(t_data *data, int size);
 void	parse_alloc(t_data *data);
 
 //line handling and utils

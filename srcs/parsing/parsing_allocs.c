@@ -12,47 +12,12 @@
 
 #include "../../header.h"
 
-void	joining(t_data *data, char *str, int i_p)
-{
-	int	i;
-	int	j;
-	int	count;
-
-	i = -1;
-	j = -1;
-	count = p_size(data, str, i_p) + 1;
-	data->paths.test_cmd = (char *)malloc(count * sizeof(char));
-	data->paths.test_cmd[count - 1] = '\0';
-	while (data->paths.paths[i_p][++i])
-		data->paths.test_cmd[i] = data->paths.paths[i_p][i];
-	while (str[++j])
-		data->paths.test_cmd[i++] = str[j];
-}
-
-void	get_line(t_data *data)
-{
-	if (data->andre.flag == 1)
-		echo_with_n_flag(data);
-	if (data->line)
-		free(data->line);
-	data->line = NULL;
-	data->line = readline("$ ▶ ");
-	exit_shell(data);
-	if (data->line[0] != '\0')
-		add_history(data->line);
-}
-
 void	count_line(t_data *data)
 {
 	int	i;
 
 	i = -1;
-	data->cmd.cmd_nbr = 0;
-	data->redir.input_n = 0;
-	data->redir.output_n = 0;
-	data->redir.append_n = 0;
-	data->redir.heredoc_n = 0;
-	data->built.builtin_n = 0;
+	set_counters(data);
 	while (data->par_line[++i])
 	{
 		if (builtin_detector (data, data->par_line[i]) >= 0)
@@ -112,7 +77,6 @@ void	alloc_cmds(t_data *data)
 
 void	alloc_redirections(t_data *data)
 {
-	int	i;
 	int	size;
 
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
@@ -124,6 +88,13 @@ void	alloc_redirections(t_data *data)
 	}
 	else
 		data->ids.inp_list = (int *)malloc(size * sizeof(int));
+	allocat_lists(data, size);
+}
+
+void	allocat_lists(t_data *data, int size)
+{
+	int	i;
+
 	data->ids.id = (int *)malloc(size * sizeof(int));
 	data->ids.pfd = (int **)malloc((size + 1) * sizeof(int *));
 	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
@@ -144,5 +115,4 @@ void	alloc_redirections(t_data *data)
 		data->ids.outp_list[i] = STDOUT_FILENO;
 	}
 }
-
 // tenho que meter os pipes com size + 1 e tava com cmd_nbr + 1
