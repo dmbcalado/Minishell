@@ -16,3 +16,12 @@ nao fez bridge :c
 true paths -> com mais argumentos ainda falha
 
 command not found -> aprefeicoar
+
+
+FALTA VER:
+
+---- MAKEFILE
+
+---- LEAKS
+
+---- BRIDGES

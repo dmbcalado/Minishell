@@ -80,7 +80,6 @@ void	alloc_redirections(t_data *data)
 	int	size;
 
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	printf("size %d\n", size);
 	if (size == 0)
 	{
 		data->ids.inp_list = (int *)malloc(sizeof(int));
@@ -96,13 +95,12 @@ void	allocat_lists(t_data *data, int size)
 	int	i;
 
 	data->ids.id = (int *)malloc(size * sizeof(int));
-	data->ids.pfd = (int **)malloc((size + 1) * sizeof(int *));
+	data->ids.pfd = (int **)malloc(size * sizeof(int *));
 	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
 	data->redir.output = (char **)malloc((size + 1) * sizeof(char *));
 	data->ids.outp_list = (int *)malloc(size * sizeof(int));
 	data->redir.input[size] = NULL;
 	data->redir.output[size] = NULL;
-	data->ids.pfd[size] = NULL;
 	i = -1;
 	while (++i < size)
 	{

@@ -15,26 +15,30 @@
 void	free_cmds(t_data *data)
 {
 	int	i;
+	int	size;
 	int	j;
 
 	i = -1;
+	size = data->cmd.cmd_nbr + data->built.builtin_n;
 	while (data->paths.path_cmd[++i])
-		free(data->paths.path_cmd[i]);
+		free (data->paths.path_cmd[i]);
 	free(data->paths.path_cmd);
 	i = -1;
 	while (data->cmd.cmdx[++i])
 	{
 		j = -1;
 		while (data->cmd.cmdx[i][++j])
+		{
+			printf("%s\n", data->cmd.cmdx[i][j]);
 			free(data->cmd.cmdx[i][j]);
+		}
 		free(data->cmd.cmdx[i]);
 	}
 	free(data->cmd.cmdx);
 	i = -1;
-	while (data->ids.pfd[++i])
+	while (++i < size)
 		free(data->ids.pfd[i]);
 	free(data->ids.pfd);
-	i = -1;
 	free(data->ids.id);
 	data->ids.in_fd = STDIN_FILENO;
 	data->ids.out_fd = STDOUT_FILENO;
@@ -95,11 +99,17 @@ void	free_builtins(t_data *data)
 void	free_for_builtins(t_data *data)
 {
 	int	i;
+	int	size;
 
 	i = -1;
+	size = data->cmd.cmd_nbr + data->built.builtin_n;
 	while (data->envp[++i])
 		free(data->envp[i]);
 	free(data->envp);
+	i = -1;
+	while (++i < size)
+		free(data->ids.pfd[i]);
+	free(data->ids.pfd);
 	free(data->ids.id);
 	if (data->redir.hdoc_key != NULL)
 		free(data->redir.hdoc_key);

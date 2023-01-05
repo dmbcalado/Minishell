@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_parsing.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 00:59:41 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/15 13:06:29 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:48:46 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int	p_size(t_data *data, char *str, int i_p)
 	i = 0;
 	j = 0;
 	while (data->paths.paths[i_p][i])
-        i++;
+		i++;
 	while (str[j])
-        j++;
+		j++;
 	return (i + j);
 }
 
@@ -90,9 +90,9 @@ int	path_size(t_data *data, int index, int i_p)
 	i = 0;
 	j = 0;
 	while (data->paths.paths[i_p][i])
-        i++;
+		i++;
 	while (data->cmd.cmdx[index][0][j])
-        j++;
+		j++;
 	return (i + j);
 }
 
@@ -113,37 +113,3 @@ void	stringcpy(char *dest, char *src)
 // This function creates the builtins list to check if its a built in.
 // -----------------------------------------------------------------------------
 
-void	create_lists(t_data *data)
-{
-	data->built.builtins = (char **)malloc(9 * sizeof(char *));
-	data->redir.redir_lib = (char *)malloc(4 * sizeof(char));
-	get_str(data, "echo", 0);
-	get_str(data, "pwd", 1);
-	get_str(data, "env", 2);
-	get_str(data, "export", 3);
-	get_str(data, "unset", 4);
-	get_str(data, "cd", 5);
-	get_str(data, "./minishell", 6);
-	get_str(data, "exit", 7);
-	data->built.builtins[8] = NULL;
-	data->redir.redir_lib[3] = 0;
-	data->redir.redir_lib[0] = '|';
-	data->redir.redir_lib[1] = '<';
-	data->redir.redir_lib[2] = '>';
-	data->ids.in_fd = STDIN_FILENO;
-	data->ids.out_fd = STDOUT_FILENO;
-}
-
-void	get_str(t_data *data, char *str, int index)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-		i++;
-	data->built.builtins[index] = (char *)malloc((i + 1) * sizeof(char));
-	data->built.builtins[index][i] = 0;
-	i = -1;
-	while (str[++i] != 0)
-		data->built.builtins[index][i] = str[i];
-}

@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 21:53:19 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/21 19:33:06 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/05 22:41:48 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	exit_minishell(t_data *data)
 	ret = 0;
 	while (data->par_line[args])
 		args++;
+	free_line_info(data);
 	if (args >= 2)
 	{
 		if (!is_string_digit(data->par_line[1]))
@@ -76,7 +77,7 @@ void	exit_minishell(t_data *data)
 	}
 	else
 		printf("exit\n");
-	free_line_info(data);
-	free_for_builtins(data);
+	printf("AAANHHHH");
+	//free_for_builtins(data);
 	exit(ret);
 }

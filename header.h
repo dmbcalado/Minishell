@@ -6,14 +6,13 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/30 02:53:55 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:58:22 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HEADER_H
 # define HEADER_H
 # define BUFFER_SIZE 42
-// Libraries in the header below
 
 # include "libft/libft.h"
 # include "./gnl/get_next_line.h"
@@ -176,8 +175,9 @@ int		true_path_join(t_data *data, int index, int i);
 void	command_not_found(t_data *data);
 void	parse_cmds(t_data *data);
 void	parse_cmd(t_data *data, int index);
-int		acessing_cmd(t_data *data, int index, int i);
 void	true_path(t_data *data, int index, int i, int count);
+void	parse_real_cmd(t_data *data, int index, int i, int count);
+int		acessing_cmd(t_data *data, int index, int i);
 
 //running commands
 void	run_processes(t_data *data, int index);
@@ -188,6 +188,9 @@ void	run_child(t_data *data, int index);
 
 // cmds - utils
 void	count_cmds(t_data *data);
+int		count_cmd_args(t_data *data, int i);
+int		get_cmd_i(t_data *data, int index);
+
 
 //BUILTINS
 // parsing builtins

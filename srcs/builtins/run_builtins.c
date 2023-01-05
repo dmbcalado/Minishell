@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:35:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/21 16:31:54 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/05 22:30:59 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ extern int	g_exit;
 
 void	exec_builtin(t_data *data, int index, int i)
 {
-	int	j;
 	int	jndex;
 
-	j = -1;
 	jndex = builtin_detector(data, data->par_line[i]);
 	if (jndex < 6 && jndex >= 0)
 	{
@@ -36,8 +34,6 @@ void	exec_builtin(t_data *data, int index, int i)
 				redirecting_output(data, index);
 			}
 			execve_builtin(data, jndex, i);
-			while(data->ids.pfd[++j])
-				free(data->ids.pfd[j]);
 			free_for_builtins(data);
 			exit(g_exit);
 		}

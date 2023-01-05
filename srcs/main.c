@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/28 16:32:05 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:40:16 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ int	walk_till_executable(t_data *data, int i)
 			if (builtin_detector(data, data->par_line[i]) >= 0)
 				break ;
 			else if (cmd_detector(data, data->par_line[i]) == 1 && \
+			data->paths.p_str != NULL)
+				break ;
+			else if (cmd_detector(data, data->par_line[i]) == 2 && \
 			data->paths.p_str != NULL)
 				break ;
 			else if (redir_detector(data, data->par_line[i]) == 1)
@@ -79,7 +82,7 @@ void	close_files(t_data *data)
 	int	i;
 	int	size;
 
- 	i = -1;
+	i = -1;
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
 	while (++i < size)
 		close(data->ids.pfd[i][1]);

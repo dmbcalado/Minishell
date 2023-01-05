@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_line_utils.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 07:51:44 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/12 12:46:36 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:49:41 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 extern int	g_exit;
 
-void	trim_spaces(char *str) //removes spaces from beggining and end of str
+void	trim_spaces(char *str)
 {
 	int	i;
-	
+
 	if (str[0] == ' ' && str[0])
 	{
 		while (str[0] == ' ' && str[0])
@@ -36,7 +36,7 @@ void	trim_spaces(char *str) //removes spaces from beggining and end of str
 	}	
 }
 
-int	is_str_in_quotes(char *str, char c)// Returns 1 if index is a char as another occurence of the same char after
+int	is_str_in_quotes(char *str, char c)
 {
 	if (str[0] == c && ft_strchr(&str[1], c) != NULL)
 		return (1);
