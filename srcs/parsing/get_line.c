@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 02:50:09 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/12/30 02:50:24 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:59:51 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	joining(t_data *data, char *str, int i_p)
 
 void	get_line(t_data *data)
 {
-	if (data->andre.flag == 1)
-		echo_with_n_flag(data);
 	if (data->line)
 		free(data->line);
 	data->line = NULL;

@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 17:54:28 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/21 18:11:18 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:13:29 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	builtin_detector(t_data *data, char *str)
 	j = -1;
 	while (data->built.builtins[++j])
 	{
-		if (ft_strncmp(data->built.builtins[j], str, ft_strlen(data->built.builtins[j])) == 0)
+		if (ft_strncmp(data->built.builtins[j], str, \
+		ft_strlen(data->built.builtins[j])) == 0)
 			return (j);
 	}
 	return (-1);
@@ -63,6 +64,27 @@ int	cmd_detector(t_data *data, char *str)
 	return (0);
 }
 
+int	redir_detect_aux(t_data *data, char *str, int i, int j)
+{
+	if (j == 0)
+		return (1);
+	else if (j == 1)
+	{
+		if (str[i + 1] == data->redir.redir_lib[j])
+			return (3);
+		else
+			return (2);
+	}
+	else if (j == 2)
+	{
+		if (str[i + 1] == data->redir.redir_lib[j])
+			return (5);
+		else
+			return (4);
+	}
+	return (-1);
+}
+
 int	redir_detector(t_data *data, char *str)
 {
 	int	i;
@@ -75,24 +97,7 @@ int	redir_detector(t_data *data, char *str)
 		while (data->redir.redir_lib[++j])
 		{
 			if (str[i] == data->redir.redir_lib[j])
-			{
-				if (j == 0)
-					return (1);
-				else if (j == 1)
-				{
-					if (str[i + 1] == data->redir.redir_lib[j])
-						return (3);
-					else
-						return (2);
-				}
-				else if (j == 2)
-				{
-					if (str[i + 1] == data->redir.redir_lib[j])
-						return (5);
-					else
-						return (4);
-				}
-			}
+				return (redir_detect_aux(data, str, i, j));
 		}
 	}
 	return (0);

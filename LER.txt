@@ -1,27 +1,15 @@
-Ja tudo fulciona.
-Alguns exemplos de pipes entre comandos e builtins com redirecoes
-entre pipes em que obtemos exatamente o resultado esperado.
-
 ls | echo bolas | wc > outfile.txt >> outfile.txt | grep h < infile.txt
 
 wc < infile.txt << eof < infile.txt > output2.txt | wc > output.txt < infile2.txt
 
-Falta :
-
-o bridge dos outfiles precisa ainda de um toque afinal
-
 ls | echo bolas | wc > outfile.txt >> outfile2.txt | grep h < infile.txt
 
-nao fez bridge :c
-true paths -> com mais argumentos ainda falha
-
-command not found -> aprefeicoar
-
-
 FALTA VER:
+
+---- BRIDGES OUTPUT
 
 ---- MAKEFILE
 
 ---- LEAKS
 
----- BRIDGES
+---- COMMAND NOT FOUND

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_line_constructor.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:31:52 by anfreire          #+#    #+#             */
-/*   Updated: 2022/10/28 00:29:54 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:59:34 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-
-char	*realloc_string(char *ptr, char *str, int flag) //ALLOCS OR APPENDS     ==    FLAG=0 -> ALLOCS  ||  FLAG=1 -> APPENDS
+char	*realloc_string(char *ptr, char *str, int flag)
 {
 	char	*tmp;
 
@@ -31,14 +30,13 @@ char	*realloc_string(char *ptr, char *str, int flag) //ALLOCS OR APPENDS     == 
 		ptr = tmp;
 	}
 	return (ptr);
-	
 }
 
-char	**realloc_list(char **ptr, int len) //ALLOCS OR APPENDS STRINGS TO LIST
-{											//LEN -> lenght of string. if len=1 -> Allocs  ||  len > 1 -> appends
+char	**realloc_list(char **ptr, int len)
+{
 	char	**tmp;
 	int		i;
-	
+
 	if (len == 1)
 	{
 		free(ptr);
@@ -71,6 +69,5 @@ char	**build_list(int len, char **ptr, char *str, t_data *data)
 	}
 	else
 		ptr[len - 1] = realloc_string(ptr[len - 1], str, 1);
-
 	return (ptr);
 }

@@ -113,4 +113,3 @@ void	allocat_lists(t_data *data, int size)
 		data->ids.outp_list[i] = STDOUT_FILENO;
 	}
 }
-// tenho que meter os pipes com size + 1 e tava com cmd_nbr + 1

@@ -1,1 +1,4 @@
-toda a situacao da variavel do env, aceitar variaveis de env, etc.
+andre:
+partir funcoes :
+
+parse_line()

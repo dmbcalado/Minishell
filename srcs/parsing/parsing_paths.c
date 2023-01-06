@@ -3,54 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_paths.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/15 13:06:11 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:20:23 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
-// ----------------------------------------------------------------------------
-// Function trims the beggining of the envp[i] = PATH:(...)
-// ----------------------------------------------------------------------------
 
-void	path_str(t_data *data)
+void	path_str_aux(t_data *data, int i)
 {
-	int	i;
 	int	j;
-	int	k;
 	int	len;
+	int	k;
 
-	i = -1;
 	j = 0;
 	k = 4;
 	len = 0;
-	while (data->envp[++i])
-	{
-		if (compare (data->envp[i], "PATH") == -2)
-		{
-			j = 1;
-			break ;	
-		}
-	}
-	if(j != 1)
-	{
-		printf(": No such file or directory\n");
-		data->paths.p_str = NULL;
-		return ;
-	}
-	j = 0;
 	while (data->envp[len])
 		len++;
-	if(i == len)
-		return ;	
+	if (i == len)
+		return ;
 	while (data->envp[i][j])
 		j++;
 	data->paths.p_str = malloc((j + 1) * sizeof(char));
 	while (data->envp[i][++k] != 0)
 		data->paths.p_str[k - 5] = data->envp[i][k];
 	data->paths.p_str[k - 5] = '\0';
+}
+
+void	path_str(t_data *data)
+{
+	int	i;
+	int	j;
+
+	i = -1;
+	j = 0;
+	while (data->envp[++i])
+	{
+		if (compare (data->envp[i], "PATH") == -2)
+		{
+			j = 1;
+			break ;
+		}
+	}
+	if (j != 1)
+	{
+		printf(": No such file or directory\n");
+		data->paths.p_str = NULL;
+		return ;
+	}
+	path_str_aux(data, i);
 }
 
 // ----------------------------------------------------------------------------
@@ -85,7 +89,7 @@ void	get_paths(t_data *data)
 
 	i = -1;
 	path_str(data);
-	if(data->paths.p_str != NULL)
+	if (data->paths.p_str != NULL)
 	{
 		count = how_many_paths(data->paths.p_str, 58) + 1;
 		data->paths.spaths = spliting(data->paths.p_str, ':');

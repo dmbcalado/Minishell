@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/05 21:58:22 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:55:28 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,7 +190,6 @@ void	run_child(t_data *data, int index);
 void	count_cmds(t_data *data);
 int		count_cmd_args(t_data *data, int i);
 int		get_cmd_i(t_data *data, int index);
-
 
 //BUILTINS
 // parsing builtins

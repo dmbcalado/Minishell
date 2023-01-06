@@ -6,13 +6,14 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:30:44 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/16 22:43:27 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 20:06:23 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
-static int	parse_double_quotes(char ***dbl_ptr, char *line, int args, t_data *data)
+static int	parse_double_quotes(char ***dbl_ptr, char *line, int args, \
+t_data *data)
 {
 	int		i;
 	char	*str;
@@ -25,7 +26,8 @@ static int	parse_double_quotes(char ***dbl_ptr, char *line, int args, t_data *da
 	return (i);
 }
 
-static int	parse_single_quotes(char ***dbl_ptr, char *line, int args, t_data *data)
+static int	parse_single_quotes(char ***dbl_ptr, char *line, int args, \
+t_data *data)
 {
 	int		i;
 	char	*str;
@@ -48,7 +50,8 @@ static int	parse_chars(char ***dbl_ptr, char *line, int args, t_data *data)
 	append[1] = 0;
 	flag = 0;
 	i = 0;
-	while (line[i] != ' ' && line[i] != '|' && !is_str_in_quotes(&line[i], '\'') && !is_str_in_quotes(&line[i], '\"') && line[i] != 0)
+	while (line[i] != ' ' && line[i] != '|' && !is_str_in_quotes(&line[i], \
+	'\'') && !is_str_in_quotes(&line[i], '\"') && line[i] != 0)
 	{
 		append[0] = line[i];
 		str = realloc_string(str, append, flag);
@@ -93,15 +96,15 @@ void	parse_line(t_data *data)
 			i += parse_single_quotes(&dbl_ptr, &line[i], args, data);
 		else if (line[i] == '|')
 		{
-			if(dbl_ptr[args - 1] != NULL)
+			if (dbl_ptr[args - 1] != NULL)
 				args++;
 			i += parse_pipe(&dbl_ptr, &line[i], args, data);
-			if(dbl_ptr[args - 1] != NULL)
+			if (dbl_ptr[args - 1] != NULL)
 				args++;
 		}
 		else if (line[i] == ' ')
 		{
-			if(dbl_ptr[args - 1] != NULL)
+			if (dbl_ptr[args - 1] != NULL)
 				args++;
 			while (line[i] == ' ')
 				i++;
