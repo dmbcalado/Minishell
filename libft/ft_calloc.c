@@ -21,19 +21,3 @@ void	*ft_calloc(size_t nitems, size_t sizeofitems)
 	ft_bzero(pointer, nitems * sizeofitems);
 	return (pointer);
 }
-
-/* int	main(void)
-{
-	void	*ptr;
-	int		i;
-
-	i = 0;
-	ptr = ft_calloc(5, sizeof(char));
-	while (i < 79)
-	{
-		printf("%d ", *(int *)ptr);
-		ptr += sizeof(char);
-		i++;
-	}
-}
- */

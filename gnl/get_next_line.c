@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/02 19:26:04 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/05/11 15:03:45 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:15:03 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,3 @@ char	*get_next_line(int fd)
 	}
 	return (temporary);
 }
-
-/* int	main(void)
-{
-	int		fd;
-	int		size;
-	char	*s;
-	int		i;
-
-	s = NULL;
-	fd = open("file.txt", O_RDONLY);
-	if ((fd) == -1)
-	{
-		printf("file opening failed\n");
-		exit(0);
-	}
-	else
-	{
-		s = get_next_line(fd);
-		printf("%s", s);
-		if (s)
-			free(s);
-		s = get_next_line(fd);
-		printf("%s", s);
-		if (s)
-			free(s);
-	}
-	return (0);
-
-
-} */

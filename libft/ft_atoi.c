@@ -39,10 +39,3 @@ int	ft_atoi(const char *str)
 	return (number);
 }
 
-/* int	main(void)
-{
-	int	i;
-
-	i = atoi(" 2147483649 ");
-	printf("%d", i);
-} */

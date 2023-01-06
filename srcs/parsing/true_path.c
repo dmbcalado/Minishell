@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 18:02:07 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/05 22:25:07 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/06 19:16:42 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	alloc_true_path(t_data *data, int index, int i, int count)
 		j++;
 		len++;
 	}
-	printf("len %d\n", index);
 	data->cmd.cmdx[index] = (char **)malloc((count + 2) * sizeof(char *));
 	data->cmd.cmdx[index][count + 1] = NULL;
 	data->cmd.cmdx[index][0] = (char *)malloc((len) * sizeof(char));
@@ -44,7 +43,6 @@ int	cpy_true_path(t_data *data, int index, int i, int count)
 
 	j = 0;
 	start = alloc_true_path(data, index, i, count);
-	printf("start : %d\n", start);
 	while (data->par_line[i][start])
 	{
 		data->cmd.cmdx[index][0][j] = data->par_line[i][start];
@@ -66,6 +64,7 @@ void	true_path(t_data *data, int index, int i, int count)
 	while (++j <= count)
 	{
 		len = 0;
+		i++;
 		while (data->par_line[i] && data->par_line[i][len])
 			len++;
 		data->cmd.cmdx[index][j] = (char *)malloc((len + 1) * sizeof(char));
@@ -73,7 +72,6 @@ void	true_path(t_data *data, int index, int i, int count)
 		len = -1;
 		while (data->par_line[i] && data->par_line[i][++len])
 			data->cmd.cmdx[index][j][len] = data->par_line[i][len];
-		i++;
 	}
 }
 

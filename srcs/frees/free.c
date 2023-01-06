@@ -12,6 +12,35 @@
 
 #include "../../header.h"
 
+void	free_line_info(t_data *data)
+{
+	int	i;
+
+	i = -1;
+	if(data->cmd.cmd_nbr > 0)
+		free_cmds(data);
+	while(data->par_line[++i])
+		free(data->par_line[i]);
+	free(data->par_line);
+	free_builtins(data);
+	free(data->redir.redir_lib);
+	i = -1;
+	while(data->paths.paths[++i])
+		free(data->paths.paths[i]);
+	free (data->paths.paths);
+	free (data->paths.p_str);
+	i = -1;
+	while(data->redir.input[++i])
+		free(data->redir.input[i]);
+	free(data->redir.input);
+	i = -1;
+	while(data->redir.output[++i])
+		free(data->redir.output[i]);
+	free(data->redir.output);
+	free(data->ids.inp_list);
+	free(data->ids.outp_list);
+}
+
 void	free_cmds(t_data *data)
 {
 	int	i;
@@ -28,10 +57,7 @@ void	free_cmds(t_data *data)
 	{
 		j = -1;
 		while (data->cmd.cmdx[i][++j])
-		{
-			printf("%s\n", data->cmd.cmdx[i][j]);
 			free(data->cmd.cmdx[i][j]);
-		}
 		free(data->cmd.cmdx[i]);
 	}
 	free(data->cmd.cmdx);
@@ -42,35 +68,6 @@ void	free_cmds(t_data *data)
 	free(data->ids.id);
 	data->ids.in_fd = STDIN_FILENO;
 	data->ids.out_fd = STDOUT_FILENO;
-}
-
-void	free_line_info(t_data *data)
-{
-	int	i;
-
-	i = -1;
-	if (data->cmd.cmd_nbr > 0)
-		free_cmds(data);
-	while (data->par_line[++i])
-		free (data->par_line[i]);
-	free(data->par_line);
-	free_builtins(data);
-	free(data->redir.redir_lib);
-	i = -1;
-	while (data->paths.paths[++i])
-		free (data->paths.paths[i]);
-	free (data->paths.paths);
-	free (data->paths.p_str);
-	i = -1;
-	while (data->redir.input[++i])
-		free(data->redir.input[i]);
-	free(data->redir.input);
-	i = -1;
-	while (data->redir.output[++i])
-		free (data->redir.output[i]);
-	free (data->redir.output);
-	free (data->ids.inp_list);
-	free (data->ids.outp_list);
 }
 
 void	free_builtins(t_data *data)
@@ -111,6 +108,8 @@ void	free_for_builtins(t_data *data)
 		free(data->ids.pfd[i]);
 	free(data->ids.pfd);
 	free(data->ids.id);
-	if (data->redir.hdoc_key != NULL)
-		free(data->redir.hdoc_key);
+	if (data->ids.inp_list)
+		free(data->ids.inp_list);
+	if (data->ids.outp_list)
+		free(data->ids.outp_list);
 }

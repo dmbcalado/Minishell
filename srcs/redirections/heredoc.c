@@ -23,38 +23,28 @@ void	heredoc(t_data *data, int index)
 	len = len_str(data->redir.hdoc_key);
 	signal(SIGQUIT, back_slash);
 	signal(SIGINT, sig_handler);
-	data->redir.hdoc_id = fork();
-	if (data->redir.hdoc_id == 0)
+	while (1)
 	{
-		while (1)
+		write(1, "> ", 2);
+		buffer = get_next_line(0);
+		if (buffer)
 		{
-			write(1, "> ", 2);
-			buffer = get_next_line(0);
-			if (buffer)
+			if (len == len_str(buffer) - 1)
 			{
-				if (len == len_str(buffer) - 1)
+				if(compare_key(data, buffer, len) > 0)
 				{
-					if(compare_key(data, buffer, len) > 0)
-					{
-						free (buffer);
-						break ;
-					}
+					free (buffer);
+					break ;
 				}
-				write(data->ids.inp_list[index], buffer, len_str(buffer));
-				free (buffer);
 			}
-			exit(g_exit);
+			write(data->ids.inp_list[index], buffer, len_str(buffer));
+			free (buffer);
 		}
 	}
-	else
-	{
-		waitpid(data->redir.hdoc_id, &g_exit, 0);
-		if (WIFEXITED(g_exit))
-			g_exit = WEXITSTATUS(g_exit);
-		data->ids.inp_list[index] = open(".heredoc_tmp", O_RDONLY);
-		if (data->ids.inp_list[index] < 0)
-			write(2, "Error on heredoc. Exiting.\n", 27);
-	}
+	free(data->redir.hdoc_key);
+	data->ids.inp_list[index] = open(".heredoc_tmp", O_RDONLY);
+	if (data->ids.inp_list[index] < 0)
+		write(2, "Error on heredoc. Exiting.\n", 27);
 }
 
 int	compare_key(t_data *data, char *buffer, int len)
