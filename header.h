@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/07 02:13:01 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:31:53 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_data
 	t_andre	andre;
 }				t_data;
 
+void	starting_vars(t_data *data);
 void	starting(t_data *data, char *envp[]);
 
 //UTILS

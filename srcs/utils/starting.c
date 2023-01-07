@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 15:54:26 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/21 19:28:56 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:31:38 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,4 +22,14 @@ void	starting(t_data *data, char *envp[])
 	data->line = NULL;
 	g_exit = 0;
 	data->redir.hdoc_key = NULL;
+}
+
+void	starting_vars(t_data *data)
+{
+	data->andre.args = 0;
+	data->cmd.c_counter = 0;
+	data->built.b_counter = 0;
+	data->redir.r_counter = 0;
+	data->redir.father_flag = 0;
+	data->redir.hdoc_id = 0;
 }

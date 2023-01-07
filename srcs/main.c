@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/07 02:13:04 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:31:09 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,33 +14,39 @@
 
 int	g_exit;
 
+int	run_line(t_data *data, int i, int *flag)
+{
+	while (data->par_line[++i])
+	{
+		if (builtin_detector(data, data->par_line[i]) >= 0)
+			break ;
+		else if (cmd_detector(data, data->par_line[i]) == 1 && \
+		data->paths.p_str != NULL)
+			break ;
+		else if (cmd_detector(data, data->par_line[i]) == 2 && \
+		data->paths.p_str != NULL)
+			break ;
+		else if (redir_detector(data, data->par_line[i]) == 1)
+			flag++;
+	}
+	return (i);
+}
+
 int	walk_till_executable(t_data *data, int i)
 {
 	int	len;
 	int	flag;
+	int	*ptr;
 
 	len = 0;
 	flag = 0;
+	ptr = &flag;
 	while (data->par_line[len])
 		len++;
 	if (len <= i + 1)
 		return (-1);
 	else
-	{
-		while (data->par_line[++i])
-		{
-			if (builtin_detector(data, data->par_line[i]) >= 0)
-				break ;
-			else if (cmd_detector(data, data->par_line[i]) == 1 && \
-			data->paths.p_str != NULL)
-				break ;
-			else if (cmd_detector(data, data->par_line[i]) == 2 && \
-			data->paths.p_str != NULL)
-				break ;
-			else if (redir_detector(data, data->par_line[i]) == 1)
-				flag++;
-		}
-	}
+		i = run_line(data, i, ptr);
 	if (flag > 1)
 		command_not_found(data);
 	if (i == len)
@@ -101,16 +107,6 @@ void	close_files(t_data *data)
 		g_exit = 131;
 	else
 		g_exit /= 256;
-}
-
-void	starting_vars(t_data *data)
-{
-	data->andre.args = 0;
-	data->cmd.c_counter = 0;
-	data->built.b_counter = 0;
-	data->redir.r_counter = 0;
-	data->redir.father_flag = 0;
-	data->redir.hdoc_id = 0;
 }
 
 int	main(int argc, char *argv[], char *envp[])
