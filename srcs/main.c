@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/05 21:40:16 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:13:04 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	close_files(t_data *data)
 
 	i = -1;
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
+	if (size == 0)
+		free_heredoc(data);
 	while (++i < size)
 		close(data->ids.pfd[i][1]);
 	i = -1;

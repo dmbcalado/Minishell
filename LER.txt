@@ -4,6 +4,8 @@ wc < infile.txt << eof < infile.txt > output2.txt | wc > output.txt < infile2.tx
 
 ls | echo bolas | wc > outfile.txt >> outfile2.txt | grep h < infile.txt
 
+ls | echo -n bolas > output2.txt | wc << hdoc > output.txt | echo -n fd
+
 FALTA VER:
 
 ---- BRIDGES OUTPUT

@@ -83,7 +83,6 @@ void	alloc_redirections(t_data *data)
 	if (size == 0)
 	{
 		data->ids.inp_list = (int *)malloc(sizeof(int));
-		data->ids.outp_list = (int *)malloc(sizeof(int));
 	}
 	else
 		data->ids.inp_list = (int *)malloc(size * sizeof(int));

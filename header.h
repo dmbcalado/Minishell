@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/06 20:55:28 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 02:13:01 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,4 +278,5 @@ void	free_cmds(t_data *data);
 void	free_builtins(t_data *data);
 void	free_line_info(t_data *data);
 void	free_for_builtins(t_data *data);
+void	free_heredoc(t_data *data);
 #endif

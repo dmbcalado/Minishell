@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 21:53:19 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/06 19:41:34 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/07 01:58:17 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ static int	is_string_digit(char *str)
 	int	i;
 
 	i = -1;
-	while(str[++i])
+	while (str[++i])
 	{
-		if(!ft_isdigit_n_dash(str[i]))
+		if (!ft_isdigit_n_dash(str[i]))
 			return (0);
 	}
 	return (1);
@@ -49,22 +49,34 @@ static int	return_exit(char *str)
 	return (0);
 }
 
+void	free_exit(t_data *data)
+{
+	int	size;
+
+	size = data->cmd.cmd_nbr + data->built.builtin_n;
+	if (size == 0)
+		free(data->ids.inp_list);
+	free(data->ids.id);
+}
+
 
 void	exit_minishell(t_data *data)
 {
 	int	ret;
 	int	args;
 
-	args = 0;
 	ret = 0;
+	args = 0;
 	while (data->par_line[args])
 		args++;
 	free_line_info(data);
+	free_exit(data);
 	if (args >= 2)
 	{
 		if (!is_string_digit(data->par_line[1]))
 		{
-			printf("minishell: exit: %s: numeric argument required\n", data->par_line[1]);
+			printf("minishell: exit: %s: numeric \
+			argument required\n", data->par_line[1]);
 			ret = 2;
 		}
 		else if (args == 2)
@@ -77,6 +89,5 @@ void	exit_minishell(t_data *data)
 	}
 	else
 		printf("exit\n");
-	//free_for_builtins(data);
 	exit(ret);
 }
