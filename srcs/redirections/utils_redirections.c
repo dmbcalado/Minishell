@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 02:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/18 20:35:52 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:30:15 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,13 @@ int	find_i_for_outfile(t_data *data, int index)
 	}
 	data->redir.last = save;
 	return (save);
+}
+
+void	start_flags_redir(t_data *data, int *index, int *i)
+{
+	*i = 0;
+	*index = -1;
+	data->size = data->cmd.cmd_nbr + data->built.builtin_n;
+	data->redir.flag_i = 0;
+	data->redir.flag_o = 0;
 }

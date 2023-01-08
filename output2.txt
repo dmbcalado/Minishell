@@ -1,1 +1,43 @@
   39  355 1833
+¾
+explicacao redirecoes
+gnl
+header.h
+infile2.txt
+infile.txt
+LER.txt
+libft
+Makefile
+minishell
+oquefaltafazer.txt
+outfile2.txt
+outfile.txt
+output2.txt
+output3.txt
+output.txt
+README.md
+redirections.c
+srcs
+Subject.pdf
+¾
+explicacao redirecoes
+gnl
+header.h
+infile2.txt
+infile.txt
+LER.txt
+libft
+Makefile
+minishell
+oquefaltafazer.txt
+outfile2.txt
+outfile.txt
+output2.txt
+output3.txt
+output.txt
+README.md
+redirections.c
+srcs
+Subject.pdf
+ 1  3 15
+ 2  2 12

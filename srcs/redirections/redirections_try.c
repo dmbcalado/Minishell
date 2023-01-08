@@ -50,21 +50,35 @@ int	redirect_output(t_data *data, int index)
 	return (i);
 }
 
+int	exec_redirect(t_data *data, int index, int i, int ret)
+{
+	if (ret < 4 && data->redir.flag_i == 0)
+	{
+		i = redirect_input(data, index);
+		if (i < 0)
+			return (-1);
+		else
+			data->redir.flag_i = 1;
+	}
+	if (ret > 3 && data->redir.flag_o == 0)
+	{
+		i = redirect_output(data, index);
+		if (i < 0)
+			return (-1);
+		else
+			data->redir.flag_o = 1;
+	}
+	return (i);
+}
+
 int	redirect(t_data *data)
 {
 	int	i;
-	int	flag_i;
-	int	flag_o;
 	int	index;
-	int	size;
 	int	ret;
 
-	i = 0;
-	index = -1;
-	flag_i = 0;
-	flag_o = 0;
-	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	while (++index <= size)
+	start_flags_redir(data, &index, &i);
+	while (++index <= data->size)
 	{
 		while (data->par_line[i])
 		{
@@ -75,28 +89,13 @@ int	redirect(t_data *data)
 				break ;
 			}
 			if (ret > 1)
-			{
-				if (ret < 4 && flag_i == 0)
-				{
-					i = redirect_input(data, index);
-					if (i < 0)
-						return (-1);
-					else
-						flag_i = 1;
-				}
-				if (ret > 3 && flag_o == 0)
-				{
-					i = redirect_output(data, index);
-					if (i < 0)
-						return (-1);
-					else
-						flag_o = 1;
-				}
-			}
+				i = exec_redirect(data, index, i, ret);
+			if (i == -1)
+				return (-1);
 			i++;
 		}
-		flag_i = 0;
-		flag_o = 0;
+		data->redir.flag_i = 0;
+		data->redir.flag_o = 0;
 	}
 	return (1);
 }

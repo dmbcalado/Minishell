@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/07 02:31:53 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:28:51 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ typedef struct s_built
 
 typedef struct s_redir
 {
+	int		flag_i;
+	int		flag_o;
 	int		hdoc_id;
 	int		last;
 	int		r_counter;
@@ -99,6 +101,7 @@ typedef struct s_andre
 
 typedef struct s_data
 {
+	int		size;
 	char	**par_line;
 	char	*line;
 	char	**envp;
@@ -112,6 +115,7 @@ typedef struct s_data
 
 void	starting_vars(t_data *data);
 void	starting(t_data *data, char *envp[]);
+void	start_flags_redir(t_data *data, int *index, int *i);
 
 //UTILS
 // utils
