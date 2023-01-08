@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:17:20 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/15 13:02:44 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:51:58 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
 
 extern int	g_exit;
-//safety numeros
 
 static int	starts_with_wrong_char(char c)
 {
@@ -49,7 +48,7 @@ void	unset(t_data *data, char *str)
 		new_envp = (char **)malloc(j * sizeof(char *));
 		new_envp[j - 1] = NULL;
 		j = -1;
-		while(data->envp[++j])
+		while (data->envp[++j])
 		{
 			if (j != i)
 				new_envp[j - flag] = selection(data, j);
@@ -77,7 +76,6 @@ char	*selection(t_data *data, int j)
 	return (str);
 }
 
-
 int	env_var_detector(t_data *data, char *str)
 {
 	int		i;
@@ -87,16 +85,16 @@ int	env_var_detector(t_data *data, char *str)
 	i = -1;
 	while (data->envp[++i])
 	{
-			j = -1;
-			len = len_str(data->envp[i]);
-			while (str[++j] && j < len)
-			{
-				if (str[j] != data->envp[i][j])
-					break ;
-			}
-			len = len_str(str);
-			if (j == len)
-				return (i);
+		j = -1;
+		len = len_str(data->envp[i]);
+		while (str[++j] && j < len)
+		{
+			if (str[j] != data->envp[i][j])
+				break ;
+		}
+		len = len_str(str);
+		if (j == len)
+			return (i);
 	}
 	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:35:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/12 18:25:53 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:50:01 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ extern int	g_exit;
 
 static int	starts_with_wrong_char(char c)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122)\
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) \
 	|| c == 95)
 		return (0);
 	else
@@ -28,8 +28,8 @@ static int	starts_with_wrong_char(char c)
 
 static int	is_in_char_set(char c)
 {
-	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90)\
-	 || (c >= 97 && c <= 122) || c == 95 || c == 61)
+	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) \
+	|| (c >= 97 && c <= 122) || c == 95 || c == 61)
 		return (1);
 	else
 		return (0);
@@ -75,7 +75,8 @@ void	parse_export(t_data *data)
 	{
 		if (is_not_valid(data, i))
 		{
-			printf("minishell: export: \'%s\': not a valid identifier\n", data->par_line[i]);
+			printf("minishell: export: \'%s\': not a valid identifier\n", \
+			data->par_line[i]);
 			g_exit = 1;
 		}
 		else

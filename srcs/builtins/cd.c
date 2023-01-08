@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 04:02:05 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/12 16:06:20 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:52:23 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ extern int	g_exit;
 void	b_cd(t_data *data)
 {
 	int	i;
-	
+
 	i = 0;
 	while (data->par_line[i])
 		i++;
@@ -25,7 +25,7 @@ void	b_cd(t_data *data)
 	{
 		printf("Minishell: cd: too many arguments\n");
 		g_exit = 1;
-		return;
+		return ;
 	}
 	else if (i == 1 || (strncmp(data->par_line[1], "~", 2) == 0 && i == 2))
 	{
@@ -35,7 +35,8 @@ void	b_cd(t_data *data)
 	}
 	else if (chdir(data->par_line[1]) != 0)
 	{
-		printf("Minishell: cd: %s: No such file or directory\n", data->par_line[1]);
+		printf("Minishell: cd: %s: No such file or directory\n", \
+		data->par_line[1]);
 		g_exit = 1;
 		return ;
 	}

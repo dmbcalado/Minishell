@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/08 14:54:43 by ratinhosujo       #+#    #+#             */
+/*   Updated: 2023/01/08 14:55:31 by ratinhosujo      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../header.h"
 
 int	check_line_in_list(char *line, char **list)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (list[++i])
@@ -27,10 +39,10 @@ void	parsing(char *line, char c)
 		else
 		{
 			printf("teste");
-			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1],
+			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1], \
 			ft_strlen(line) - (ptr1 - line));
 			ptr1 = ft_strchr(ptr1, c);
-			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1],
+			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1], \
 			ft_strlen(line) - (ptr1 - line));
 		}
 	}

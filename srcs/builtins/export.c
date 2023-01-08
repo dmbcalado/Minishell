@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:15:55 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/15 13:11:53 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/08 14:54:19 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ extern int	g_exit;
 // environment.
 void	export(t_data *data)
 {
-	if(data->built.args == 1)
+	if (data->built.args == 1)
 		export_env (data);
-	else if(data->built.args > 1)
+	else if (data->built.args > 1)
 		parse_export(data);
 }
 
@@ -51,39 +51,39 @@ void	export_env(t_data *data)
 	int	len;
 	int	counter;
 	int	*smal;
-	
+
 	len = 0;
 	counter = -1;
-	while(data->envp[len])
+	while (data->envp[len])
 		len++;
 	smal = (int *)malloc(len * sizeof(int));
-	while(++counter < len)
+	while (++counter < len)
 		smal[counter] = -1;
 	counter = -1;
-	while(++counter < len)
+	while (++counter < len)
 		smal[counter] = get_next(data, smal);
 	counter = -1;
-	while(++counter < len)
+	while (++counter < len)
 		printf("%s\n", data->envp[smal[counter]]);
 	free(smal);
 }
 
 int	get_next(t_data *data, int *smal)
 {
-	int i;
+	int	i;
 	int	j;
 	int	s;
 
 	s = 0;
 	i = -1;
-	while(smal[++i] >= 0)
+	while (smal[++i] >= 0)
 	{
 		if (find_in_list(smal, i) < 0)
 			s++;
 		else
 			break ;
 	}
-	while(data->envp[++i] != NULL)
+	while (data->envp[++i] != NULL)
 	{
 		j = -1;
 		while (data->envp[i][++j] != 0)
@@ -102,7 +102,7 @@ int	get_next(t_data *data, int *smal)
 				break ;
 		}
 	}
-	return(s);
+	return (s);
 }
 
 int	find_in_list(int *smal, int i)
@@ -110,16 +110,10 @@ int	find_in_list(int *smal, int i)
 	int	index;
 
 	index = -1;
-	while(smal[++index] >= 0)
+	while (smal[++index] >= 0)
 	{
 		if (smal[index] == i)
-			return(-1);
+			return (-1);
 	}
 	return (index);
-	
-	
 }
-
-// built-in that performs the function of unset in our own
-// environment.
-
