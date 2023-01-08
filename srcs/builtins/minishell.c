@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 16:59:01 by anfreire          #+#    #+#             */
-/*   Updated: 2022/11/15 13:13:03 by anfreire         ###   ########.fr       */
+/*   Updated: 2023/01/08 15:45:55 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	run_minishell(t_data *data, int index)
 	{
 		waitpid(data->ids.id[index], &g_exit, 0);
 		WEXITSTATUS(g_exit);
-		g_exit /= 256;
+		g_exit = (char)g_exit;
+		printf("%d\n", g_exit);
 		return ;
 	}
 }

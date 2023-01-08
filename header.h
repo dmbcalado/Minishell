@@ -6,7 +6,7 @@
 /*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/08 14:28:51 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/08 16:01:05 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ void	execve_builtin(t_data *data, int jndex, int i);
 void	b_echo(t_data *data, int index);
 void	echo_with_n_flag(t_data *data);
 void	b_pwd(void);
-void	b_cd(t_data *data);
+void	b_cd(t_data *data, int index);
 void	run_minishell(t_data *data, int index);
 void	exit_minishell(t_data *data);
 

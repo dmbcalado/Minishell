@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   run_builtins.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:35:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 23:52:04 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/08 15:20:43 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,21 @@ void	exec_builtin(t_data *data, int index, int i)
 	int	jndex;
 
 	jndex = builtin_detector(data, data->par_line[i]);
-	if (jndex < 6 && jndex >= 0)
+	if (jndex < 2 && jndex >= 0)
 	{
 		data->ids.id[index] = fork();
 		if (data->ids.id[index] == 0)
 			run_child_bultin(data, index, jndex, i);
 		data->redir.r_counter++;
 	}
+	else if (jndex == 2)
+		env(data);
+	else if (jndex == 3)
+		export(data);
+	else if (jndex == 4)
+		unset(data, data->par_line[1]);
+	else if (jndex == 5)
+		b_cd(data, index);
 	else if (jndex == 6)
 		run_minishell(data, index);
 	else if (jndex == 7)
@@ -54,12 +62,4 @@ void	execve_builtin(t_data *data, int jndex, int i)
 		b_echo(data, i);
 	else if (jndex == 1)
 		b_pwd();
-	if (jndex == 2)
-		env(data);
-	else if (jndex == 3)
-		export(data);
-	else if (jndex == 4)
-		unset(data, data->par_line[1]);
-	else if (jndex == 5)
-		b_cd(data);
 }

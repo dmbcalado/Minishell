@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 21:53:19 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/07 01:58:17 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/08 16:03:35 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,16 +39,6 @@ static int	is_string_digit(char *str)
 	return (1);
 }
 
-static int	return_exit(char *str)
-{
-	int	digit;
-
-	digit = (char)ft_atoi(str);
-	if (digit)
-		return (digit);
-	return (0);
-}
-
 void	free_exit(t_data *data)
 {
 	int	size;
@@ -62,14 +52,11 @@ void	free_exit(t_data *data)
 
 void	exit_minishell(t_data *data)
 {
-	int	ret;
 	int	args;
 
-	ret = 0;
 	args = 0;
 	while (data->par_line[args])
 		args++;
-	free_line_info(data);
 	free_exit(data);
 	if (args >= 2)
 	{
@@ -77,17 +64,22 @@ void	exit_minishell(t_data *data)
 		{
 			printf("minishell: exit: %s: numeric \
 			argument required\n", data->par_line[1]);
-			ret = 2;
+			g_exit = 2;
 		}
 		else if (args == 2)
 		{
 			printf("exit\n");
-			ret = return_exit(data->par_line[1]);
+			g_exit = (char)ft_atoi(data->par_line[1]);
+			printf("g exit : %d", g_exit);
 		}
-		printf("minishell: exit: too many arguments\n");
-		ret = 1;
+		else
+			printf("minishell: exit: too many arguments\n");
+		free_line_info(data);
 	}
 	else
+	{
+		free_line_info(data);
 		printf("exit\n");
-	exit(ret);
+	}
+	exit(g_exit);
 }
