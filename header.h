@@ -6,7 +6,7 @@
 /*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/17 00:03:02 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/08 16:01:05 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/08 16:48:41 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,9 +177,10 @@ int		true_path_join(t_data *data, int index, int i);
 
 //COMMANDS
 //parsing and testing if its executable
-void	command_not_found(t_data *data);
 void	parse_cmds(t_data *data);
 void	parse_cmd(t_data *data, int index);
+void	command_not_found(t_data *data);
+void	no_command_not_found(t_data *data);
 void	true_path(t_data *data, int index, int i, int count);
 void	parse_real_cmd(t_data *data, int index, int i, int count);
 int		acessing_cmd(t_data *data, int index, int i);

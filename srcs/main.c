@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 06:49:28 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/07 02:31:09 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/08 17:01:17 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,11 @@ int	g_exit;
 
 int	run_line(t_data *data, int i, int *flag)
 {
+	int	size;
+
+	size = data->cmd.cmd_nbr + data->built.builtin_n;
+	if (size == 0)
+		no_command_not_found(data);
 	while (data->par_line[++i])
 	{
 		if (builtin_detector(data, data->par_line[i]) >= 0)
@@ -36,17 +41,15 @@ int	walk_till_executable(t_data *data, int i)
 {
 	int	len;
 	int	flag;
-	int	*ptr;
 
 	len = 0;
 	flag = 0;
-	ptr = &flag;
+
 	while (data->par_line[len])
 		len++;
-	if (len <= i + 1)
-		return (-1);
-	else
-		i = run_line(data, i, ptr);
+/* 	if (len <= i + 1)
+		return (-1); */
+	i = run_line(data, i, &flag);
 	if (flag > 1)
 		command_not_found(data);
 	if (i == len)
@@ -77,6 +80,7 @@ void	brain(t_data *data)
 			data->redir.r_counter++;
 		}
 		i = walk_till_executable(data, i);
+		printf("i :%d", i);
 		if (i < 0)
 			break ;
 	}
@@ -90,6 +94,7 @@ void	close_files(t_data *data)
 
 	i = -1;
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
+	printf("size %d\n", size);
 	if (size == 0)
 		free_heredoc(data);
 	while (++i < size)
