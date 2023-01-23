@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/30 17:54:28 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 20:13:29 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:11:40 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	full_detector(t_data *data, char *str)
 {
-	if (builtin_detector (data, str) >= 0)
+	if (builtin_detector(data, str) >= 0)
 		return (1);
 	else if (cmd_detector(data, str) == 1)
 		return (2);
@@ -30,8 +30,8 @@ int	builtin_detector(t_data *data, char *str)
 	j = -1;
 	while (data->built.builtins[++j])
 	{
-		if (ft_strncmp(data->built.builtins[j], str, \
-		ft_strlen(data->built.builtins[j])) == 0)
+		if (ft_strncmp(data->built.builtins[j], str,
+				ft_strlen(data->built.builtins[j]) + 1) == 0)
 			return (j);
 	}
 	return (-1);
@@ -46,21 +46,23 @@ int	cmd_detector(t_data *data, char *str)
 	int	i_p;
 
 	i_p = -1;
-	while (data->paths.paths[++i_p])
+	if (data->paths.p_str != NULL)
 	{
-		joining (data, str, i_p);
-		if (access(data->paths.test_cmd, X_OK) == 0 && \
-		!is_dot_cmd(data->paths.test_cmd))
+		while (data->paths.paths[++i_p])
 		{
-			free(data->paths.test_cmd);
-			return (1);
+			joining(data, str, i_p);
+			if (access(data->paths.test_cmd, X_OK) == 0 \
+			&& !is_dot_cmd(data->paths.test_cmd))
+			{
+				free(data->paths.test_cmd);
+				return (1);
+			}
+			else
+				free(data->paths.test_cmd);
 		}
-		else
-			free(data->paths.test_cmd);
+		if (access(str, X_OK) == 0 && !is_dot_cmd(str))
+			return (2);
 	}
-	if (access(str, X_OK) == 0 && \
-		!is_dot_cmd(str))
-		return (2);
 	return (0);
 }
 

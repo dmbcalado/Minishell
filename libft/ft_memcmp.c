@@ -79,5 +79,5 @@ int	ft_memcmp(const void *str1, const void *str2, size_t n)
 //  str2   ==>    second block of memory.
 //   n     ==>    Number of bytes to be compared.
 // THIS IS THE FIRST TIME WE SEE A CONSTANT VOID POINTER.
-// The constant void pointer is the same as a void pointer, besides the fact 
+// The constant void pointer is the same as a void pointer, besides the fact
 // that its instructed to point to a memory that should not be modified.

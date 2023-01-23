@@ -39,7 +39,7 @@ int	give_last_rev(char const *s1, char const *set, int last)
 		if (s1[last] == set[i])
 		{
 			i = 0;
-			last --;
+			last--;
 		}
 		else
 			i++;

@@ -3,23 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/24 18:29:28 by anfreire          #+#    #+#             */
-/*   Updated: 2022/12/30 00:50:44 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:19:49 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include  "../../header.h"
+#include "../../header.h"
 
 extern int	g_exit;
-// colects environment intrinsic to the computer and allocates
-// to our own environment.
 
 void	get_envp(t_data *data, char **envp)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (envp[i])
@@ -43,17 +41,38 @@ void	get_envp(t_data *data, char **envp)
 // built-in that performs the function of env in our own
 // environment.
 
-void	env(t_data *data)
+int	data_par_line_counter(t_data *data, int index)
 {
 	int	i;
 
-	i = -1;
-	if (data->par_line[1])
+	i = 0;
+	while (data->par_line[index])
 	{
-		printf("env: \'%s\': No such file or directory\n", data->par_line[1]);
+		if (ft_strncmp(data->par_line[i], "|", 2) == 0 \
+			|| ft_strncmp(data->par_line[i], "<", 2) == 0 \
+			|| ft_strncmp(data->par_line[i], ">", 2) == 0 \
+			|| ft_strncmp(data->par_line[i], "<<", 3) == 0 \
+			|| ft_strncmp(data->par_line[i], ">>", 3) == 0)
+			break ;
+		index++;
+		i++;
+	}
+	return (i);
+}
+
+void	env(t_data *data, int index)
+{
+	int	i;
+
+	i = data_par_line_counter(data, index);
+	if (i > 1)
+	{
+		printf("env: \'%s\': No such file or directory\n", \
+		data->par_line[index + 1]);
 		g_exit = 127;
 		return ;
 	}
+	i = -1;
 	while (data->envp[++i])
 		printf("%s\n", data->envp[i]);
 	g_exit = 0;

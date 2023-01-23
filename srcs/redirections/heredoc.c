@@ -17,8 +17,13 @@ extern int	g_exit;
 void	run_heredoc(t_data *data, int index, int len)
 {
 	char	*buffer;
+	int		g_exit_val;
 
-	while (1)
+	data->ids.inp_list[index] = open(".heredoc_tmp", O_CREAT | O_TRUNC | O_RDWR,
+			0644);
+	len = len_str(data->redir.hdoc_key);
+	g_exit_val = g_exit;
+	while (g_exit == g_exit_val)
 	{
 		write(1, "> ", 2);
 		buffer = get_next_line(0);
@@ -28,26 +33,26 @@ void	run_heredoc(t_data *data, int index, int len)
 			{
 				if (compare_key(data, buffer, len) > 0)
 				{
-					free (buffer);
+					free(buffer);
 					break ;
 				}
 			}
 			write(data->ids.inp_list[index], buffer, len_str(buffer));
-			free (buffer);
+			free(buffer);
 		}
 	}
 }
 
 void	heredoc(t_data *data, int index)
 {
-	int		len;
-	int		size;
+	int	len;
+	int	size;
 
 	size = data->cmd.cmd_nbr + data->built.builtin_n;
-	data->ids.inp_list[index] = open(".heredoc_tmp", O_CREAT \
-	| O_TRUNC | O_RDWR, 0644);
+	data->ids.inp_list[index] = open(".heredoc_tmp", O_CREAT | O_TRUNC | O_RDWR,
+			0644);
 	len = len_str(data->redir.hdoc_key);
-	signal(SIGQUIT, back_slash);
+	signal(SIGQUIT, h_doc_sig);
 	signal(SIGINT, sig_handler);
 	run_heredoc(data, index, len);
 	if (size != 0)

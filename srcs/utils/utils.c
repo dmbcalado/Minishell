@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils.c       					                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/08 14:54:43 by ratinhosujo       #+#    #+#             */
-/*   Updated: 2023/01/08 14:55:31 by ratinhosujo      ###   ########.fr       */
+/*   Created: 2022/10/10 16:31:52 by anfreire          #+#    #+#             */
+/*   Updated: 2022/10/28 00:29:54 by anfreire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ void	parsing(char *line, char c)
 		{
 			printf("teste");
 			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1], \
-			ft_strlen(line) - (ptr1 - line));
+				ft_strlen(line) - (ptr1 - line));
 			ptr1 = ft_strchr(ptr1, c);
 			ft_memmove(&line[ptr1 - line], &line[ptr1 - line + 1], \
-			ft_strlen(line) - (ptr1 - line));
+				ft_strlen(line) - (ptr1 - line));
 		}
 	}
 	return ;

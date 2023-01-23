@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/05 21:47:15 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/05 21:49:17 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/20 18:09:17 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	count_cmd_args(t_data *data, int i)
 	count = 0;
 	while (data->par_line[++i])
 	{
-		if (builtin_detector (data, data->par_line[i]) >= 0)
+		if (builtin_detector(data, data->par_line[i]) >= 0)
 			break ;
-		if (redir_detector (data, data->par_line[i]) > 0)
+		if (redir_detector(data, data->par_line[i]) > 0)
 			break ;
-		if (cmd_detector (data, data->par_line[i]) == 1)
+		if (cmd_detector(data, data->par_line[i]) == 1)
 			break ;
 		count++;
 	}
@@ -39,12 +39,17 @@ int	get_cmd_i(t_data *data, int index)
 	count = 0;
 	while (data->par_line[++i])
 	{
-		if (cmd_detector (data, data->par_line[i]) == 1)
+		if (builtin_detector(data, data->par_line[i]) >= 0)
+		{
+			i = run_c(data, i);
+			continue ;
+		}
+		if (cmd_detector(data, data->par_line[i]) == 1)
 		{
 			if (builtin_detector(data, data->par_line[i]) == -1)
 				count++;
 		}
-		else if (cmd_detector (data, data->par_line[i]) == 2)
+		else if (cmd_detector(data, data->par_line[i]) == 2)
 			count++;
 		if (count == index + 1)
 			break ;
@@ -85,4 +90,17 @@ void	get_str(t_data *data, char *str, int index)
 	i = -1;
 	while (str[++i] != 0)
 		data->built.builtins[index][i] = str[i];
+}
+
+void	null_them_var(t_data *data)
+{
+	data->ids.id = NULL;
+	data->ids.pfd = NULL;
+	data->redir.input = NULL;
+	data->redir.output = NULL;
+	data->ids.outp_list = NULL;
+	data->redir.input = NULL;
+	data->redir.output = NULL;
+	data->ids.indicador = NULL;
+	data->paths.indicador = NULL;
 }

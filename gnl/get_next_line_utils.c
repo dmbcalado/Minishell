@@ -28,9 +28,9 @@ int	search_for_size(const char *buffer, int chr)
 
 int	search_for_bl(char *buffer)
 {
-	int		i;
-	int		j;
-	int		flag;
+	int	i;
+	int	j;
+	int	flag;
 
 	i = 0;
 	j = 0;

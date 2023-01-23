@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/07 18:35:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/08 14:50:01 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/19 18:38:22 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ extern int	g_exit;
 
 static int	starts_with_wrong_char(char c)
 {
-	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122) \
-	|| c == 95)
+	if ((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
 		return (0);
 	else
 		return (1);
@@ -28,8 +27,8 @@ static int	starts_with_wrong_char(char c)
 
 static int	is_in_char_set(char c)
 {
-	if ((c >= 48 && c <= 57) || (c >= 65 && c <= 90) \
-	|| (c >= 97 && c <= 122) || c == 95 || c == 61)
+	if ((c >= 47 && c <= 58) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122)
+		|| c == 95 || c == 61)
 		return (1);
 	else
 		return (0);
@@ -41,7 +40,7 @@ static int	is_not_valid(t_data *data, int arg)
 
 	if (starts_with_wrong_char(data->par_line[arg][0]))
 		return (1);
-	i = -1;
+	i = 0;
 	while (data->par_line[arg][++i])
 	{
 		if (!is_in_char_set(data->par_line[arg][i]))
@@ -65,21 +64,24 @@ static void	has_equal_sign(t_data *data, int arg)
 	}
 }
 
-void	parse_export(t_data *data)
+void	parse_export(t_data *data, int index)
 {
-	int	i;
-
-	i = 0;
 	g_exit = 0;
-	while (data->par_line[++i])
+	while (data->par_line[++index])
 	{
-		if (is_not_valid(data, i))
+		if (ft_strncmp(data->par_line[index], "|", 2) == 0 || \
+			ft_strncmp(data->par_line[index], "<", 2) == 0 || \
+			ft_strncmp(data->par_line[index], ">", 2) == 0 || \
+			ft_strncmp(data->par_line[index], "<<", 3) == 0 || \
+			ft_strncmp(data->par_line[index], ">>", 3) == 0)
+			break ;
+		if (is_not_valid(data, index))
 		{
-			printf("minishell: export: \'%s\': not a valid identifier\n", \
-			data->par_line[i]);
+			printf("minishell: export: \'%s\': not a valid identifier\n",
+				data->par_line[index]);
 			g_exit = 1;
 		}
 		else
-			has_equal_sign(data, i);
+			has_equal_sign(data, index);
 	}
 }

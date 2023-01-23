@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_minishell.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 21:53:19 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/08 16:03:35 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/12 20:56:49 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,33 @@ void	free_exit(t_data *data)
 	if (size == 0)
 		free(data->ids.inp_list);
 	free(data->ids.id);
+	free(data->ids.indicador);
 }
 
-
-void	exit_minishell(t_data *data)
+void	exit_minishell(t_data *data, int index)
 {
 	int	args;
 
-	args = 0;
-	while (data->par_line[args])
-		args++;
-	free_exit(data);
+	args = data_par_line_counter(data, index);
+	printf("exit\n");
 	if (args >= 2)
 	{
-		if (!is_string_digit(data->par_line[1]))
+		if (!is_string_digit(data->par_line[index + 1]))
 		{
-			printf("minishell: exit: %s: numeric \
-			argument required\n", data->par_line[1]);
+			printf("minishell: exit: %s: numeric argument required\n", \
+				data->par_line[index + 1]);
 			g_exit = 2;
 		}
-		else if (args == 2)
+		else if (args > 2)
 		{
-			printf("exit\n");
-			g_exit = (char)ft_atoi(data->par_line[1]);
-			printf("g exit : %d", g_exit);
+			printf("minishell: exit: too many arguments\n");
+			g_exit = 1;
 		}
 		else
-			printf("minishell: exit: too many arguments\n");
-		free_line_info(data);
+			g_exit = ft_atoi(data->par_line[index + 1]);
 	}
-	else
-	{
-		free_line_info(data);
-		printf("exit\n");
-	}
+	extra_protection_free(data);
+	free_for_exit(data);
+	free_exit(data);
 	exit(g_exit);
 }

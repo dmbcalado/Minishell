@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/09 22:15:55 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/08 14:54:19 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/11/15 13:11:53 by anfreire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ extern int	g_exit;
 //safety igual & safety numeros & safety varios args
 // built-in that performs the function of export in our own
 // environment.
-void	export(t_data *data)
+void	export(t_data *data, int index)
 {
 	if (data->built.args == 1)
-		export_env (data);
+		export_env(data);
 	else if (data->built.args > 1)
-		parse_export(data);
+		parse_export(data, index);
 }
 
 void	export_var(t_data *data, char *str)
@@ -38,7 +38,7 @@ void	export_var(t_data *data, char *str)
 	i = -1;
 	while (data->envp[++i])
 	{
-		new_envp[i] =add_estr(data, i);
+		new_envp[i] = add_estr(data, i);
 		free(data->envp[i]);
 	}
 	new_envp[i] = add_str(str);
@@ -68,21 +68,10 @@ void	export_env(t_data *data)
 	free(smal);
 }
 
-int	get_next(t_data *data, int *smal)
+static void	get_next_aux(t_data *data, int *smal, int i, int s)
 {
-	int	i;
 	int	j;
-	int	s;
 
-	s = 0;
-	i = -1;
-	while (smal[++i] >= 0)
-	{
-		if (find_in_list(smal, i) < 0)
-			s++;
-		else
-			break ;
-	}
 	while (data->envp[++i] != NULL)
 	{
 		j = -1;
@@ -102,18 +91,25 @@ int	get_next(t_data *data, int *smal)
 				break ;
 		}
 	}
+}
+
+int	get_next(t_data *data, int *smal)
+{
+	int	i;
+	int	s;
+
+	s = 0;
+	i = -1;
+	while (smal[++i] >= 0)
+	{
+		if (find_in_list(smal, i) < 0)
+			s++;
+		else
+			break ;
+	}
+	get_next_aux(data, smal, i, s);
 	return (s);
 }
 
-int	find_in_list(int *smal, int i)
-{
-	int	index;
-
-	index = -1;
-	while (smal[++index] >= 0)
-	{
-		if (smal[index] == i)
-			return (-1);
-	}
-	return (index);
-}
+// built-in that performs the function of unset in our own
+// environment.

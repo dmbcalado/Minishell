@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 17:20:36 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 23:53:06 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/20 19:28:04 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	bridging_infiles(t_data *data, int index, int count, int i)
 {
 	int	ret;
 
-	ret = redir_detector (data, data->par_line[i]);
+	ret = redir_detector(data, data->par_line[i]);
 	if (ret == 1)
 		return (-2);
 	if (ret > 1 && count == index)
@@ -48,8 +48,8 @@ int	bridging_infiles(t_data *data, int index, int count, int i)
 		{
 			if (open(data->par_line[i + 1], O_RDONLY) < 0)
 			{
-				printf("Error: the file %s does not exist."\
-				, data->par_line[i + 1]);
+				printf("Error: the file %s does not exist.", data->par_line[i
+					+ 1]);
 				return (-1);
 			}
 		}
@@ -91,14 +91,15 @@ int	bridging_outfiles(t_data *data, int index, int count, int i)
 
 	while (data->par_line[i])
 	{
-		ret = redir_detector (data, data->par_line[i]);
+		ret = redir_detector(data, data->par_line[i]);
 		if (ret == 1)
 			return (0);
 		if (ret > 1 && count == index)
 		{
 			if (ret > 3 && i != data->redir.last)
 			{
-				if (open(data->par_line[i + 1], O_CREAT | O_TRUNC, 644) < 0)
+				if (open(data->par_line[i + 1], O_CREAT | \
+				O_TRUNC | O_RDWR, 0666) < 0)
 					return (-1);
 			}
 		}

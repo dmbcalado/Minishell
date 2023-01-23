@@ -15,23 +15,23 @@ void	ft_lstadd_front(t_list **lst, t_list *new)
 {
 	if (!lst || !new)
 		return ;
-	new -> next = *lst;
+	new->next = *lst;
 	*lst = new;
 }
 
 /*Adds the node ’new’ at the beginning of the list
 
-    -			  NEW           -
+    -				NEW           -
  	-----------------------------
 	|				|			|
-	|	 CONTENT	|	NEXT 	|
-	|				|	  |		|
+	|		CONTENT	|	NEXT 	|
+	|				|		|		|
 	-----------------------------
-	LIST:			      | 
+	LIST:				   | 
 	-----------------------------
-	|				|	  v		|
-	|	 CONTENT	|	NEXT 	|
-	|				|	  |		|
+	|				|		v		|
+	|		CONTENT	|	NEXT 	|
+	|				|		|		|
 	----------------------------- 	
 	-			(...)     |
 	

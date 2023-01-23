@@ -6,11 +6,12 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 00:59:41 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 20:14:59 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/05 21:48:46 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
+
 // -----------------------------------------------------------------------------
 
 // Function function that compares the command with another string. ex: ls.
@@ -70,8 +71,8 @@ int	how_many_paths(char const *s, char c)
 // -----------------------------------------------------------------------------
 int	p_size(t_data *data, char *str, int i_p)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -84,8 +85,8 @@ int	p_size(t_data *data, char *str, int i_p)
 
 int	path_size(t_data *data, int index, int i_p)
 {
-	int		i;
-	int		j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = 0;
@@ -108,3 +109,7 @@ void	stringcpy(char *dest, char *src)
 	}
 	dest[i] = '\0';
 }
+
+// -----------------------------------------------------------------------------
+// This function creates the builtins list to check if its a built in.
+// -----------------------------------------------------------------------------

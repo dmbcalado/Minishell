@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_line_constructor.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 16:31:52 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/06 19:59:34 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:19:36 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	**realloc_list(char **ptr, int len)
 			ft_strlcpy(tmp[i], ptr[i], ft_strlen(ptr[i]) + 1);
 			free(ptr[i]);
 		}
+		if (ptr[i])
+			free(ptr[i]);
 		free(ptr);
 		ptr = tmp;
 	}
@@ -60,7 +62,7 @@ char	**realloc_list(char **ptr, int len)
 }
 
 char	**build_list(int len, char **ptr, char *str, t_data *data)
-{	
+{
 	if (data->andre.args == len - 1)
 	{
 		ptr = realloc_list(ptr, len);
@@ -70,4 +72,14 @@ char	**build_list(int len, char **ptr, char *str, t_data *data)
 	else
 		ptr[len - 1] = realloc_string(ptr[len - 1], str, 1);
 	return (ptr);
+}
+
+int	parse_pipe(char ***dbl_ptr, char *line, int args, t_data *data)
+{
+	char	*str;
+
+	str = ft_substr(line, 0, 1);
+	*dbl_ptr = build_list(args, *dbl_ptr, str, data);
+	free(str);
+	return (1);
 }

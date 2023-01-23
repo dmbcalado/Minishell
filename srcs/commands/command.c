@@ -32,8 +32,8 @@ void	run_command(t_data *data, int index, int cmd_i, int i)
 		write(2, "Error on acessing the cmd\n", 27);
 		return ;
 	}
-	signal(SIGQUIT, back_slash);
-	signal(SIGINT, sig_handler);
+	signal(SIGQUIT, h_doc_sig);
+	signal(SIGINT, sig_handler_no_extra_nl);
 	data->ids.id[index] = fork();
 	if (data->ids.id[index] == 0)
 	{
@@ -42,6 +42,7 @@ void	run_command(t_data *data, int index, int cmd_i, int i)
 	}
 	else
 	{
+		signal(SIGQUIT, SIG_IGN);
 		if (index != 0)
 			close(data->ids.pfd[index - 1][1]);
 	}

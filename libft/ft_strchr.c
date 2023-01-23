@@ -44,5 +44,5 @@ char	*ft_strchr(const char *str, int c)
 } */
 /*--|strrchr returns a pointer to the first occurrence of the character 
 		in a given string|--*/
-// 	str   ==>    str is a constant char array. 
+// 	str   ==>    str is a constant char array.
 //   c    ==>    Char to be found, given in ascii number.

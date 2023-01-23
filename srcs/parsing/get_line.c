@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/30 02:50:09 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 19:59:51 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/18 21:53:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,25 @@ void	get_line(t_data *data)
 	exit_shell(data);
 	if (data->line[0] != '\0')
 		add_history(data->line);
+}
+
+int	main_proceed_cannot(t_data	*data)
+{
+	int	i;
+
+	i = -1;
+	if (error_redir_pipe(data) == -1)
+	{
+		while (data->par_line && data->par_line[++i])
+			free(data->par_line[i]);
+		free(data->par_line);
+		free(data->paths.p_str);
+		i = -1;
+		while (data->paths.paths[++i])
+			free(data->paths.paths[i]);
+		free(data->paths.paths);
+		printf("minishell: syntax error\n");
+		return (1);
+	}
+	return (0);
 }

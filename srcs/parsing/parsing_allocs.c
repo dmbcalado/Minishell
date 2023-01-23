@@ -12,30 +12,12 @@
 
 #include "../../header.h"
 
-void	count_line(t_data *data)
+int	return_i(t_data *data, int i)
 {
-	int	i;
-
-	i = -1;
-	set_counters(data);
-	while (data->par_line[++i])
-	{
-		if (builtin_detector (data, data->par_line[i]) >= 0)
-			data->built.builtin_n++;
-		else if (cmd_detector (data, data->par_line[i]) > 0)
-			data->cmd.cmd_nbr++;
-		else if (redir_detector (data, data->par_line[i]) > 1)
-		{
-			if (redir_detector (data, data->par_line[i]) == 2)
-				data->redir.input_n++;
-			if (redir_detector (data, data->par_line[i]) == 3)
-				data->redir.heredoc_n++;
-			if (redir_detector (data, data->par_line[i]) == 4)
-				data->redir.output_n++;
-			if (redir_detector (data, data->par_line[i]) == 5)
-				data->redir.append_n++;
-		}
-	}
+	if (builtin_detector(data, data->par_line[i]) == 5 && \
+	data->par_line[i + 1])
+		i++;
+	return (i);
 }
 
 void	parse_alloc(t_data *data)
@@ -46,8 +28,8 @@ void	parse_alloc(t_data *data)
 	alloc_redirections(data);
 	if (data->built.builtin_n > 0)
 	{
-		data->built.builtin = (char ***)malloc((data->built.builtin_n + 1) \
-		* sizeof(char **));
+		data->built.builtin = (char ***)malloc((data->built.builtin_n + 1)
+				* sizeof(char **));
 		data->built.builtin[data->built.builtin_n] = NULL;
 	}
 }
@@ -62,16 +44,18 @@ void	alloc_cmds(t_data *data)
 	if (data->cmd.cmd_nbr > 0)
 	{
 		data->cmd.cmdx = (char ***)malloc((data->cmd.cmd_nbr + 1) \
-		* sizeof(char **));
+				* sizeof(char **));
+		data->paths.indicador = malloc(sizeof(int) * 2);
+		*data->paths.indicador = data->cmd.cmd_nbr + 1;
 		data->paths.path_cmd = (char **)malloc((data->cmd.cmd_nbr + 1) \
-		* sizeof(char *));
+				* sizeof(char *));
 		data->cmd.cmdx[data->cmd.cmd_nbr] = NULL;
 		data->paths.path_cmd[data->cmd.cmd_nbr] = NULL;
 	}
 }
 
 // -----------------------------------------------------------------------------
-// Fully allocates redir.input[size] and allocates both char ** for 
+// Fully allocates redir.input[size] and allocates both char ** for
 // collecting the file name of the input (or EOF), and the file of the output.
 // -----------------------------------------------------------------------------
 
@@ -86,29 +70,6 @@ void	alloc_redirections(t_data *data)
 	}
 	else
 		data->ids.inp_list = (int *)malloc(size * sizeof(int));
-	allocat_lists(data, size);
-}
-
-void	allocat_lists(t_data *data, int size)
-{
-	int	i;
-
-	data->ids.id = (int *)malloc(size * sizeof(int));
-	data->ids.pfd = (int **)malloc(size * sizeof(int *));
-	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
-	data->redir.output = (char **)malloc((size + 1) * sizeof(char *));
-	data->ids.outp_list = (int *)malloc(size * sizeof(int));
-	data->redir.input[size] = NULL;
-	data->redir.output[size] = NULL;
-	i = -1;
-	while (++i < size)
-	{
-		data->ids.pfd[i] = (int *)malloc(2 * sizeof(int));
-		if (pipe(data->ids.pfd[i]) != 0)
-			return ;
-		data->redir.input[i] = (char *)malloc(sizeof(char));
-		data->redir.output[i] = (char *)malloc(sizeof(char));
-		data->ids.inp_list[i] = STDIN_FILENO;
-		data->ids.outp_list[i] = STDOUT_FILENO;
-	}
+	if (data->par_line[0] && builtin_detector(data, data->par_line[0]) != 7)
+		allocat_lists(data, size);
 }

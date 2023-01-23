@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_redirections.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 02:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/08 14:30:15 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/11/18 20:35:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	find_i_for_infile(t_data *data, int index)
 	while (++ind_c <= index)
 	{
 		save = 0;
-		while (data->par_line[++i] && redir_detector(data, data->par_line[i]) \
-		!= 1)
+		while (data->par_line[++i] && redir_detector(data, \
+				data->par_line[i]) != 1)
 		{
 			if (redir_detector(data, data->par_line[i]) > 1)
 			{
@@ -73,7 +73,7 @@ int	find_i_for_outfile(t_data *data, int index)
 	while (++ind_c <= index)
 	{
 		while (data->par_line[++i] && \
-		redir_detector(data, data->par_line[i]) != 1)
+			redir_detector(data, data->par_line[i]) != 1)
 		{
 			if (redir_detector(data, data->par_line[i]) > 1)
 			{
@@ -84,13 +84,4 @@ int	find_i_for_outfile(t_data *data, int index)
 	}
 	data->redir.last = save;
 	return (save);
-}
-
-void	start_flags_redir(t_data *data, int *index, int *i)
-{
-	*i = 0;
-	*index = -1;
-	data->size = data->cmd.cmd_nbr + data->built.builtin_n;
-	data->redir.flag_i = 0;
-	data->redir.flag_o = 0;
 }

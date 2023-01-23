@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/29 01:04:26 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/05 21:56:23 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/19 17:20:01 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,9 @@ void	parse_cmds(t_data *data)
 
 	i = 0;
 	cmds = data->cmd.cmd_nbr + 1;
-	if (cmds > 0)
-	{
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
-	}
 	while (--cmds > 0)
 	{
-		parse_cmd (data, i);
+		parse_cmd(data, i);
 		i++;
 	}
 }
@@ -90,12 +85,12 @@ int	acessing_cmd(t_data *data, int index, int i)
 		c++;
 	while (++j < c)
 	{
-		path_join (data, index, j);
-		if (access(data->paths.path_cmd[index], X_OK) == 0 && \
-		!is_dot_cmd(data->paths.path_cmd[index]))
+		path_join(data, index, j);
+		if (access(data->paths.path_cmd[index], X_OK) == 0 \
+			&& !is_dot_cmd(data->paths.path_cmd[index]))
 			return (1);
 		else
-			free (data->paths.path_cmd[index]);
+			free(data->paths.path_cmd[index]);
 	}
 	if (true_path_join(data, index, i) == 1)
 		return (1);

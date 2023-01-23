@@ -13,8 +13,8 @@
 
 int	howmanymics(const char *str, int c)
 {
-	int		how_many;
-	int		i;
+	int	how_many;
+	int	i;
 
 	how_many = 0;
 	i = 0;
@@ -31,7 +31,7 @@ int	howmanymics(const char *str, int c)
 
 char	*pointtolast(const char *str, int c, int how_many)
 {
-	int		enough;
+	int	enough;
 
 	enough = 0;
 	while (*str)
@@ -82,5 +82,5 @@ char	*ft_strrchr(const char *str, int c)
 } */
 /*--|strrchr returns a pointer to the last occurrence of the character in 
 	a given string|--*/
-// 	str   ==>    str is a constant char array, 
+// 	str   ==>    str is a constant char array,
 //   c    ==>    Char to be found, given in ascii number.

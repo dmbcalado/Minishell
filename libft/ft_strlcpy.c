@@ -37,13 +37,15 @@ size_t	ft_strlcpy(char *dest, const char *src, unsigned int size)
 
 /* int	main(void)
 {
-	char			a[] = "123456789";
-	char			b[12] = "say what";
+	char			a[];
+	char			b[12];
 	char			*patha;
 	char			*pathb;
 	int				cont;
-	unsigned int 	sizin;
+	unsigned int	sizin;
 
+	a[] = "123456789";
+	b[12] = "say what";
 	cont = 0;
 	patha = a;
 	pathb = b;

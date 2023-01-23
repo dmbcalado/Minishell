@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_not_found.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/23 17:26:55 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/08 16:56:14 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/18 23:46:52 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../header.h"
+
+extern int	g_exit;
 
 void	check_for_hdoc(t_data *data, int *index, int *flag)
 {
@@ -30,6 +32,16 @@ void	check_for_hdoc(t_data *data, int *index, int *flag)
 	}
 }
 
+int	par_line_len(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->par_line[i])
+		i++;
+	return (i);
+}
+
 void	no_command_not_found(t_data *data)
 {
 	int	len;
@@ -38,7 +50,8 @@ void	no_command_not_found(t_data *data)
 
 	flag = 1;
 	check_for_hdoc(data, &index, &flag);
-	if (flag == 0)
+	len = par_line_len(data);
+	if (flag == 0 && index < len)
 	{
 		len = ft_strlen(data->par_line[index]);
 		write(2, data->par_line[index], len);
@@ -50,8 +63,8 @@ void	no_command_not_found(t_data *data)
 		write(2, data->par_line[0], len);
 		write(2, ": command not found\n", 20);
 	}
+	g_exit = 127;
 }
-
 
 void	command_not_found(t_data *data)
 {
@@ -65,7 +78,7 @@ void	command_not_found(t_data *data)
 		{
 			len = ft_strlen(data->par_line[i]);
 			write(2, data->par_line[i], len);
-			write(2, ": command not found\n", 19);
+			write(2, ": command not found\n", 20);
 			break ;
 		}
 		else if (data->par_line[i + 2])

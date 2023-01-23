@@ -32,7 +32,7 @@ int	alloc_true_path(t_data *data, int index, int i, int count)
 	data->cmd.cmdx[index] = (char **)malloc((count + 2) * sizeof(char *));
 	data->cmd.cmdx[index][count + 1] = NULL;
 	data->cmd.cmdx[index][0] = (char *)malloc((len) * sizeof(char));
-	data->cmd.cmdx[index][0][len -1] = 0;
+	data->cmd.cmdx[index][0][len - 1] = 0;
 	return (start);
 }
 
@@ -87,8 +87,8 @@ int	true_path_join(t_data *data, int index, int i)
 	j = -1;
 	while (data->par_line[i][++j])
 		data->paths.path_cmd[index][j] = data->par_line[i][j];
-	if (access(data->paths.path_cmd[index], X_OK) == 0 && \
-		!is_dot_cmd(data->paths.path_cmd[index]))
+	if (access(data->paths.path_cmd[index], X_OK) == 0 \
+		&& !is_dot_cmd(data->paths.path_cmd[index]))
 		return (1);
 	return (0);
 }

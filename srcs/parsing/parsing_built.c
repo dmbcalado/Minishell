@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_built.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/06 23:07:12 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/15 14:50:57 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/20 14:39:18 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,44 @@ void	built_builting(t_data *data, int i, int size, int index)
 	len = -1;
 	while (data->par_line[i][++len])
 		data->built.builtin[index][size][len] = data->par_line[i][len];
+}
+
+static void	allocat_lists_aux(t_data *data, int size)
+{
+	data->ids.id = (int *)malloc(size * sizeof(int));
+	data->ids.pfd = (int **)malloc(size * sizeof(int *));
+	data->redir.input = (char **)malloc((size + 1) * sizeof(char *));
+	data->redir.output = (char **)malloc((size + 1) * sizeof(char *));
+	data->ids.outp_list = (int *)malloc(size * sizeof(int));
+	if (size > 0)
+	{
+		data->redir.input[size] = NULL;
+		data->redir.output[size] = NULL;
+	}
+}
+
+void	allocat_lists(t_data *data, int size)
+{
+	int			i;
+
+	extra_protection_free(data);
+	if (size == 0)
+		return ;
+	allocat_lists_aux(data, size);
+	i = -1;
+	data->ids.indicador = malloc(sizeof(int) * 3);
+	data->ids.indicador[0] = 0;
+	data->ids.indicador[1] = 0;
+	while (++i < size)
+	{
+		data->ids.pfd[i] = (int *)malloc(2 * sizeof(int));
+		data->ids.indicador[0]++;
+		if (pipe(data->ids.pfd[i]) != 0)
+			return ;
+		data->redir.input[i] = (char *)malloc(sizeof(char));
+		data->redir.output[i] = (char *)malloc(sizeof(char));
+		data->ids.indicador[1]++;
+		data->ids.inp_list[i] = STDIN_FILENO;
+		data->ids.outp_list[i] = STDOUT_FILENO;
+	}
 }

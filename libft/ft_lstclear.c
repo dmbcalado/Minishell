@@ -19,7 +19,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 		return ;
 	while (*lst)
 	{
-		copy = (*lst)-> next;
+		copy = (*lst)->next;
 		ft_lstdelone(*lst, del);
 		*lst = copy;
 	}

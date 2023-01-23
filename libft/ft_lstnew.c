@@ -18,8 +18,8 @@ t_list	*ft_lstnew(void *content)
 	first = (t_list *)malloc(sizeof(t_list));
 	if (!first)
 		return (NULL);
-	first -> content = content;
-	first -> next = NULL;
+	first->content = content;
+	first->next = NULL;
 	return (first);
 }
 
@@ -38,6 +38,6 @@ t_list	*ft_lstnew(void *content)
 passed as parameter and atributing it, and by pointing it to NULL.
  	-----------------------------
 	|				|			|
-	|	 CONTENT	|	NEXT  --|----> NULL
+	|		CONTENT	|	NEXT  --|----> NULL
 	|				|			|
 	-----------------------------           */

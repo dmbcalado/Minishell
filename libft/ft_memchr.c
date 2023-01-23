@@ -64,5 +64,5 @@ void	*ft_memchr(const void *str, int c, size_t n)
 //   n     ==>    Number of bytes to search for c.
 
 // THIS IS THE FIRST TIME WE SEE A CONSTANT VOID POINTER.
-// The constant void pointer is the same as a void pointer, besides the fact 
+// The constant void pointer is the same as a void pointer, besides the fact
 // that its instructed to point to a memory that should not be modified.

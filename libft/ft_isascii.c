@@ -24,6 +24,6 @@ int	ft_isascii(int arg)
 }
 
 /*--|The isascii() function checks whether a character is a value
-		 that fits into the ASCII character set|--*/
+			that fits into the ASCII character set|--*/
 //	when ascii character is passed: 1
 //	when non-ascii character is passed: 0

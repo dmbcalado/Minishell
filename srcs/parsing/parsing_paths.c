@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/01 19:13:18 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/06 20:20:23 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/20 13:10:31 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	path_str(t_data *data)
 	j = 0;
 	while (data->envp[++i])
 	{
-		if (compare (data->envp[i], "PATH") == -2)
+		if (compare(data->envp[i], "PATH") == -2)
 		{
 			j = 1;
 			break ;
@@ -50,7 +50,6 @@ void	path_str(t_data *data)
 	}
 	if (j != 1)
 	{
-		printf(": No such file or directory\n");
 		data->paths.p_str = NULL;
 		return ;
 	}
@@ -117,7 +116,8 @@ void	path_join(t_data *data, int index, int i_p)
 	i = -1;
 	j = -1;
 	count = path_size(data, index, i_p) + 1;
-	data->paths.path_cmd[index] = (char *)malloc(count * sizeof(char));
+	data->paths.path_cmd[index] = (char *)malloc((count) * sizeof(char));
+	data->paths.path_cmd[index][count - 1] = 0;
 	while (data->paths.paths[i_p][++i])
 		data->paths.path_cmd[index][i] = data->paths.paths[i_p][i];
 	data->paths.path_cmd[index][0] = '/';

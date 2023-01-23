@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anfreire <anfreire@student.42lisboa.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/18 08:22:28 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/06 20:22:49 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/14 00:06:09 by anfreire         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,35 @@ void	sig_handler(int signum)
 {
 	if (signum == SIGINT)
 	{
-		g_exit = 130;
 		ioctl(STDIN_FILENO, TIOCSTI, "\n");
 		rl_replace_line("", 0);
 		rl_on_new_line();
+		g_exit = 130;
 	}
 }
 
-void	sig_handler_one(int signum)
+void	sig_handler_no_extra_nl(int signum)
 {
-	if (signum == SIGINT)
+	static int	i = 0;
+
+	if (signum == SIGINT && i == 0)
 	{
-		g_exit = 130;
 		rl_replace_line("", 0);
 		rl_on_new_line();
+		g_exit = 130;
+		i = 1;
 	}
+	else
+	{
+		sig_handler(signum);
+		i = 0;
+	}
+	g_exit = 130;
 }
 
-void	back_slash(int sig)
+void	h_doc_sig(int signum)
 {
-	if (sig == SIGQUIT)
-	{
+	if (signum == SIGINT)
 		g_exit = 131;
-		printf("Quit (core dumped)\n");
-	}
+	signal(SIGQUIT, h_doc_sig);
 }

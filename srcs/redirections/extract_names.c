@@ -6,7 +6,7 @@
 /*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/16 21:02:23 by dmendonc          #+#    #+#             */
-/*   Updated: 2022/11/21 19:49:59 by dmendonc         ###   ########.fr       */
+/*   Updated: 2023/01/19 19:05:47 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	extract_output(t_data *data, int index, int i)
 
 	j = 0;
 	while (data->par_line[i][j])
-			j++;
+		j++;
 	free(data->redir.output[index]);
 	data->redir.output[index] = (char *)malloc((j + 1) * sizeof(char));
 	data->redir.output[index][j] = 0;

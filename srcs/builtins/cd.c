@@ -6,7 +6,7 @@
 /*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/19 04:02:05 by anfreire          #+#    #+#             */
-/*   Updated: 2023/01/08 15:11:38 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2023/01/13 12:38:13 by ratinhosujo      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,45 @@
 
 extern int	g_exit;
 
-static void	b_cd_aux(t_data *data, int index, int i)
+static void	b_cd_aux(t_data *data, int index)
 {
-	if (i > 2)
-	{
-		printf("Minishell: cd: too many arguments\n");
-		g_exit = 1;
-		return ;
-	}
-	else if (i == 2 || (strncmp(data->par_line[++index], "~", 2) == 0 \
-		&& i == 2))
+	int	value;
+
+	if (data->par_line[index + 1][ft_strlen(data->par_line[index + 1]) - 1]
+	== '/')
+		data->par_line[index + 1][ft_strlen(data->par_line[index + 1]) - 1] = 0;
+	if (ft_strncmp(data->par_line[index + 1], "~", 2) == 0)
 	{
 		chdir(getenv("HOME"));
 		g_exit = 0;
-		return ;
 	}
-	else if (chdir(data->par_line[++index]) != 0)
+	else
 	{
-		printf("Minishell: cd: %s: No such file or directory\n", \
-		data->par_line[1]);
-		g_exit = 1;
-		return ;
+		value = chdir(data->par_line[index + 1]);
+		if (value == 0)
+			g_exit = 0;
+		else
+		{
+			printf("Minishell: cd: %s: No such file or directory\n", \
+			data->par_line[index + 1]);
+			g_exit = 1;
+		}
 	}
-	g_exit = 0;
+	return ;
+}
+
+void	aux_cd(int i)
+{
+	if (i == 1)
+	{
+		chdir(getenv("HOME"));
+		g_exit = 0;
+	}
+	if (i > 2)
+	{
+		printf("Minishell: cd: too many arguments\n");
+		g_exit = 2;
+	}
 }
 
 void	b_cd(t_data *data, int index)
@@ -46,13 +62,20 @@ void	b_cd(t_data *data, int index)
 	i = 0;
 	while (data->par_line[i])
 	{
-		if (ft_strncmp(data->par_line[i], "|", 2) == 0 \
-			|| ft_strncmp(data->par_line[i], "<", 2) == 0 \
+		if (ft_strncmp(data->par_line[i], "|", 2) == 0)
+			return ;
+		if (ft_strncmp(data->par_line[i], "<", 2) == 0 \
 			|| ft_strncmp(data->par_line[i], ">", 2) == 0 \
 			|| ft_strncmp(data->par_line[i], "<<", 3) == 0 \
 			|| ft_strncmp(data->par_line[i], ">>", 3) == 0)
 			break ;
 		i++;
 	}
-	b_cd_aux(data, index, i);
+	if (i == 1 || i > 2)
+	{
+		aux_cd(i);
+		return ;
+	}
+	else
+		b_cd_aux(data, index);
 }

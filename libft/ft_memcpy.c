@@ -47,5 +47,5 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 } */
 /*--|memcpy is used to copy n characters from memory area src to dest|--*/
 // 	dest   ==>    Destiny address of memory to be filled.
-//  src	   ==>    Source adress from wich we will copy the n char.
+//  src		==>    Source adress from wich we will copy the n char.
 //   n     ==>    Number of characters to copy.

@@ -22,25 +22,25 @@ void	ft_lstadd_back(t_list **lst, t_list *new)
 		return ;
 	}
 	last = ft_lstlast(last);
-	last -> next = new;
+	last->next = new;
 }
 
 /*Adds the node ’new’ at the end of the list.
 For that we first test if the list exists, if it does,
-then we use the function ft_lstlast() to reach the last
+then we use the function	ft_lstlast(void) to reach the last
 element of the list. After that we just need to point the
 last element to the new one, and point the new one to NULL.
 
     (...)Last element of the list:
  	-----------------------------
 	|				|			|
-	|	 CONTENT	|	NEXT 	|0
-	|				|	  |		|
+	|		CONTENT	|	NEXT 	|0
+	|				|		|		|
 	-----------------------------
-	NEW:			      | 
+	NEW:				   | 
 	-----------------------------
-	|				|	  v		|
-	|	 CONTENT	|	NEXT ---|---> NULL 
-	|				|	  		|
+	|				|		v		|
+	|		CONTENT	|	NEXT ---|---> NULL 
+	|				|				|
 	----------------------------- 	
  */

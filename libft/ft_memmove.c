@@ -67,5 +67,5 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	pastes in the destiny.
 
 	dest   ==>    Destiny address of memory to be filled.
- src	   ==>    Source adress from wich we will copy the n char.
+ src		==>    Source adress from wich we will copy the n char.
   n     ==>    Number of characters to copy. */

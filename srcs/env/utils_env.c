@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_env.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ratinhosujo <ratinhosujo@student.42.fr>    +#+  +:+       +#+        */
+/*   By: dmendonc <dmendonc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/28 21:07:19 by dmendonc          #+#    #+#             */
-/*   Updated: 2023/01/08 15:07:46 by ratinhosujo      ###   ########.fr       */
+/*   Updated: 2022/12/30 00:51:32 by dmendonc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*add_estr(t_data *data, int index)
 	return (string);
 }
 
-char	*add_str( char *str)
+char	*add_str(char *str)
 {
 	int		i;
 	int		len;
