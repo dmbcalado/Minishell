@@ -1,4 +1,0 @@
-andre:
-partir funcoes :
-
-parse_line()
